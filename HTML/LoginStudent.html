@@ -7,7 +7,8 @@
 <body>
     <div class="max-w-[100%] h-screen">
         <div class="bg-cover bg-[url('https://ik.imagekit.io/vu71lptnl/network-connection-background-abstract-style_23-2148875738.jpg')] bg-no-repeat">
-            <form class="h-screen flex flex-col items-center" id="form">
+            <div class="bg-blue-950/10 backdrop-blur-md">
+            <form action="Student.html" class="h-screen flex flex-col items-center" id="form">
                 <div class="p-15 rounded-lg border-2 border-white/30 bg-blue-950/70 backdrop-blur-md mt-7 shadow-2xl">
                     <p class="text-[30px] text-center font-[Pacifico] text-white font-bold">Student Login</p>
                     <p class="text-white ml-9 mt-3">Access your account to continue</p>
@@ -25,6 +26,7 @@
                     <p class="flex flex-row justify-evenly mt-5 ml-3 text-white">Don't have an account?<a class="text-sky-400" href="">Register</a></p>
                 </div>
             </form>
+            </div>
         </div>
     </div>
     <script>
@@ -34,8 +36,12 @@
             let password = document.getElementById('password')
             let passwordError = document.getElementById('passwordError')
 
+            let em = false, pw = false
+
             form.addEventListener("submit",(e)=>{
-                e.preventDefault()
+                if(!em || !pw){
+                    e.preventDefault()
+                }
             })
 
             email.addEventListener("input",(e) => {
@@ -44,11 +50,17 @@
                     emailError.textContent = "Email should not be empty";
                     email.classList.remove("bg-green-300","bg-white");
                     email.classList.add("bg-red-300");
+                    emailError.classList.remove("text-green-500")
+                    emailError.classList.add("text-red-500")
+                    em = false
                 }
                 else if(!e.target.value.match(regex)){
                     emailError.textContent = "Email should not be in the format"
                     email.classList.remove("bg-green-300","bg-white");
                     email.classList.add("bg-red-300");
+                    emailError.classList.remove("text-green-500")
+                    emailError.classList.add("text-red-500")
+                    em = false
                 }
                 else{
                     emailError.textContent = "Looks good"
@@ -56,6 +68,7 @@
                     email.classList.add("bg-green-300")
                     emailError.classList.remove("text-red-500")
                     emailError.classList.add("text-green-500")
+                    em = true
                 }
             })
 
@@ -70,31 +83,49 @@
                     passwordError.textContent = "Password should not be empty"
                     password.classList.remove("bg-green-300","bg-white")
                     password.classList.add("bg-red-300")
+                    passwordError.classList.remove("text-green-500")
+                    passwordError.classList.add("text-red-500")
+                    pw = false
                 }
                 else if(!e.target.value.match(len)){
                     passwordError.textContent = "Atleast 8 characters"
                     password.classList.remove("bg-green-300","bg-white")
                     password.classList.add("bg-red-300")
+                    passwordError.classList.remove("text-green-500")
+                    passwordError.classList.add("text-red-500")
+                    pw = false
                 }
                 else if(!e.target.value.match(upper)){
                     passwordError.textContent = "Atleast 1 upper case"
                     password.classList.remove("bg-green-300","bg-white")
                     password.classList.add("bg-red-300")
+                    passwordError.classList.remove("text-green-500")
+                    passwordError.classList.add("text-red-500")
+                    pw = false
                 }
                 else if(!e.target.value.match(lower)){
                     passwordError.textContent = "Atleast 1 lower case"
                     password.classList.remove("bg-green-300","bg-white")
                     password.classList.add("bg-red-300")
+                    passwordError.classList.remove("text-green-500")
+                    passwordError.classList.add("text-red-500")
+                    pw = false
                 }
                 else if(!e.target.value.match(digit)){
                     passwordError.textContent = "Atleast 1 digit"
                     password.classList.remove("bg-green-300","bg-white")
                     password.classList.add("bg-red-300")
+                    passwordError.classList.remove("text-green-500")
+                    passwordError.classList.add("text-red-500")
+                    pw = false
                 }
                 else if(!e.target.value.match(splchar)){
                     passwordError.textContent = "Atleast 1 special character"
                     password.classList.remove("bg-green-300","bg-white")
                     password.classList.add("bg-red-300")
+                    passwordError.classList.remove("text-green-500")
+                    passwordError.classList.add("text-red-500")
+                    pw = false
                 }
                 else{
                     passwordError.textContent = "Looks good"
@@ -102,6 +133,7 @@
                     password.classList.add("bg-green-300")
                     passwordError.classList.remove("text-red-500")
                     passwordError.classList.add("text-green-500")
+                    pw = true
                 }
             })
     </script>
