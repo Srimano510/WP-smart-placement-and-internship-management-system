@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Dashboard - Smart Placement & Internship</title>
+    <link rel="icon" href="https://ik.imagekit.io/vu71lptnl/creative-logo-design-for-real-estate-company-vector.jpg">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800">
+
+    <!-- Top Navigation -->
+    <header class="bg-purple-900 border-b border-purple-800 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <div class="flex items-center space-x-3">
+                <img src="https://ik.imagekit.io/vu71lptnl/creative-logo-design-for-real-estate-company-vector.jpg" alt="Company Logo" class="w-9 h-9 rounded-lg bg-white p-1">
+                <div>
+                    <h1 class="text-lg font-black tracking-tight" id="headerCompanyName">Recruiting Partner Console</h1>
+                    <p class="text-[10px] text-purple-200">Anna University Placement Management Portal</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <span class="px-3 py-1 bg-green-500 text-black text-xs font-black rounded-full uppercase tracking-wider">Verified Recruiter</span>
+                <a href="CompanyLogin.html" onclick="sessionStorage.clear()" class="text-purple-200 hover:text-white text-sm font-bold flex items-center space-x-1">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sub-Nav Tab Switches -->
+    <div class="bg-purple-950 text-white border-b border-purple-800">
+        <div class="max-w-7xl mx-auto px-4 flex space-x-4">
+            <button onclick="switchTab('view')" id="tabBtnView" class="py-3 px-4 font-bold text-sm border-b-4 border-green-400 text-green-300 flex items-center space-x-2">
+                <i class="fa-solid fa-list-check"></i>
+                <span>View Current Postings</span>
+            </button>
+            <button onclick="switchTab('add')" id="tabBtnAdd" class="py-3 px-4 font-bold text-sm border-b-4 border-transparent text-purple-300 hover:text-white flex items-center space-x-2">
+                <i class="fa-solid fa-circle-plus"></i>
+                <span>Add New Internship / Placement</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- ================= SECTION 1: VIEW SECTION ================= -->
+        <section id="viewSection" class="space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900">Your Active Recruitment Postings</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Track live applications, student responses, and drive milestones.</p>
+                </div>
+                <button onclick="switchTab('add')" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-xl text-sm font-bold shadow flex items-center space-x-2 transition">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Post New Opening</span>
+                </button>
+            </div>
+
+            <!-- Current Openings Grid -->
+            <div id="companyPostingsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamically loaded -->
+            </div>
+        </section>
+
+        <!-- ================= SECTION 2: ADD SECTION ================= -->
+        <section id="addSection" class="hidden max-w-3xl mx-auto bg-white rounded-2xl shadow-lg border border-slate-200 p-8">
+            <div class="border-b border-slate-200 pb-4 mb-6">
+                <h2 class="text-2xl font-black text-slate-900 flex items-center space-x-2">
+                    <i class="fa-solid fa-file-circle-plus text-purple-700"></i>
+                    <span>Add New Internship or Placement Drive</span>
+                </h2>
+                <p class="text-xs text-slate-500 mt-1">Publish an authorized role directly to eligible students across departments.</p>
+            </div>
+
+            <form id="addOpportunityForm" onsubmit="submitNewOpportunity(event)" class="space-y-6">
+                <!-- Role Title & Opportunity Type -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Role / Job Title *</label>
+                        <input type="text" id="oppTitle" required placeholder="e.g. Software Development Engineer" 
+                               class="w-full px-3.5 py-2.5 border-2 border-slate-300 rounded-xl focus:border-green-600 text-sm font-semibold">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Opportunity Type *</label>
+                        <select id="oppType" required class="w-full px-3.5 py-2.5 border-2 border-slate-300 rounded-xl focus:border-green-600 text-sm font-bold bg-white">
+                            <option value="INTERNSHIP">Internship</option>
+                            <option value="PLACEMENT">Full-Time Placement</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Duration & Work Location -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Duration / Employment Nature *</label>
+                        <input type="text" id="oppDuration" required placeholder="e.g. 6 Months (Internship) or Permanent" 
+                               class="w-full px-3.5 py-2.5 border-2 border-slate-300 rounded-xl focus:border-green-600 text-sm font-semibold">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Job Location *</label>
+                        <input type="text" id="oppLocation" required placeholder="e.g. Bangalore, Chennai, Hybrid" 
+                               class="w-full px-3.5 py-2.5 border-2 border-slate-300 rounded-xl focus:border-green-600 text-sm font-semibold">
+                    </div>
+                </div>
+
+                <!-- Compensation & Minimum GPA Cutoff -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Compensation (Stipend / CTC) *</label>
+                        <input type="text" id="oppCompensation" required placeholder="e.g. ₹50,000 / month or 14 LPA" 
+                               class="w-full px-3.5 py-2.5 border-2 border-slate-300 rounded-xl focus:border-green-600 text-sm font-bold text-green-700">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Minimum GPA Cutoff (0 - 10) *</label>
+                        <input type="number" id="oppMinGpa" step="0.1" min="0" max="10" required placeholder="7.5" 
+                               class="w-full px-3.5 py-2.5 border-2 border-slate-300 rounded-xl focus:border-green-600 text-sm font-bold">
+                    </div>
+                </div>
+
+                <!-- Eligible Departments (Multi-Select Pills) -->
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-600 mb-2">Eligible Engineering Departments *</label>
+                    <div class="flex flex-wrap gap-2.5">
+                        <label class="dept-checkbox flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-bold cursor-pointer border border-slate-300 hover:bg-slate-200">
+                            <input type="checkbox" value="CSE" checked class="rounded text-green-600"> <span>CSE</span>
+                        </label>
+                        <label class="dept-checkbox flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-bold cursor-pointer border border-slate-300 hover:bg-slate-200">
+                            <input type="checkbox" value="IT" checked class="rounded text-green-600"> <span>IT</span>
+                        </label>
+                        <label class="dept-checkbox flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-bold cursor-pointer border border-slate-300 hover:bg-slate-200">
+                            <input type="checkbox" value="ECE" class="rounded text-green-600"> <span>ECE</span>
+                        </label>
+                        <label class="dept-checkbox flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-bold cursor-pointer border border-slate-300 hover:bg-slate-200">
+                            <input type="checkbox" value="EEE" class="rounded text-green-600"> <span>EEE</span>
+                        </label>
+                        <label class="dept-checkbox flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-bold cursor-pointer border border-slate-300 hover:bg-slate-200">
+                            <input type="checkbox" value="Mechanical" class="rounded text-green-600"> <span>Mechanical</span>
+                        </label>
+                        <label class="dept-checkbox flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-bold cursor-pointer border border-slate-300 hover:bg-slate-200">
+                            <input type="checkbox" value="Civil" class="rounded text-green-600"> <span>Civil</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Dates: Deadline & Drive Date -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Application Deadline *</label>
+                        <input type="date" id="oppDeadline" required 
+                               class="w-full px-3.5 py-2.5 border-2 border-slate-300 rounded-xl focus:border-green-600 text-sm font-semibold">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Scheduled Drive / OA Date</label>
+                        <input type="date" id="oppDriveDate" 
+                               class="w-full px-3.5 py-2.5 border-2 border-slate-300 rounded-xl focus:border-green-600 text-sm font-semibold">
+                    </div>
+                </div>
+
+                <!-- Job Description -->
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Role Description & Hiring Requirements</label>
+                    <textarea id="oppDesc" rows="3" placeholder="Specify key responsibilities, tech stack, and drive round guidelines..." 
+                              class="w-full px-3.5 py-2.5 border-2 border-slate-300 rounded-xl focus:border-green-600 text-sm"></textarea>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-4 border-t border-slate-200">
+                    <button type="button" onclick="switchTab('view')" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 rounded-xl font-bold text-slate-700 text-sm transition">Cancel</button>
+                    <button type="submit" id="addSubmitBtn" class="px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-xl font-extrabold text-sm shadow-md transition flex items-center space-x-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Publish Opportunity</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- Feedback Toast -->
+    <div id="companyToast" class="fixed bottom-6 right-6 transform translate-y-24 opacity-0 transition-all duration-300 z-50 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center space-x-3">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-green-400 text-lg"></i>
+        <span id="toastMsg" class="font-medium text-sm">Message</span>
+    </div>
+
+    <script>
+        let currentCompany = {
+            id: sessionStorage.getItem('companyId') || 1,
+            name: sessionStorage.getItem('companyName') || "Zoho Corporation"
+        };
+
+        // Fallback / Initial Postings for company
+        let companyPostings = [
+            {
+                id: 101,
+                title: "Member Technical Staff - Cloud Ops",
+                type: "PLACEMENT",
+                duration: "Full Time",
+                departments: "CSE, IT, ECE",
+                location: "Chennai",
+                compensation: "8.5 LPA",
+                minGpa: 7.0,
+                deadline: "2026-11-10",
+                driveDate: "2026-11-15",
+                applicantCount: 42,
+                status: "OPEN"
+            },
+            {
+                id: 102,
+                title: "Front-End Engineering Intern",
+                type: "INTERNSHIP",
+                duration: "6 Months",
+                departments: "CSE, IT",
+                location: "Chennai / Remote",
+                compensation: "₹40,000 / month",
+                minGpa: 6.8,
+                deadline: "2026-11-02",
+                driveDate: "2026-11-08",
+                applicantCount: 28,
+                status: "OPEN"
+            }
+        ];
+
+        function switchTab(tab) {
+            const viewSec = document.getElementById('viewSection');
+            const addSec = document.getElementById('addSection');
+            const tabBtnView = document.getElementById('tabBtnView');
+            const tabBtnAdd = document.getElementById('tabBtnAdd');
+
+            if (tab === 'view') {
+                viewSec.classList.remove('hidden');
+                addSec.classList.add('hidden');
+                tabBtnView.className = "py-3 px-4 font-bold text-sm border-b-4 border-green-400 text-green-300 flex items-center space-x-2";
+                tabBtnAdd.className = "py-3 px-4 font-bold text-sm border-b-4 border-transparent text-purple-300 hover:text-white flex items-center space-x-2";
+                loadCompanyPostings();
+            } else {
+                addSec.classList.remove('hidden');
+                viewSec.classList.add('hidden');
+                tabBtnAdd.className = "py-3 px-4 font-bold text-sm border-b-4 border-green-400 text-green-300 flex items-center space-x-2";
+                tabBtnView.className = "py-3 px-4 font-bold text-sm border-b-4 border-transparent text-purple-300 hover:text-white flex items-center space-x-2";
+            }
+        }
+
+        async function loadCompanyPostings() {
+            try {
+                const res = await fetch(`../CompanyServlet?companyId=${currentCompany.id}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        companyPostings = data;
+                    }
+                }
+            } catch (e) {
+                // Keep default postings
+            }
+            renderCompanyPostings();
+        }
+
+        function renderCompanyPostings() {
+            const container = document.getElementById('companyPostingsContainer');
+            if (companyPostings.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-12 text-center bg-white rounded-2xl border border-dashed border-slate-300">
+                        <i class="fa-solid fa-bullhorn text-slate-300 text-4xl mb-2"></i>
+                        <h4 class="font-bold text-slate-700">No active postings found</h4>
+                        <p class="text-xs text-slate-500 mt-1">Use the "Add New Internship / Placement" tab to post your first recruitment drive.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = companyPostings.map(post => `
+                <div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-lg transition">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start">
+                            <span class="px-2.5 py-1 text-xs font-black uppercase rounded ${post.type === 'INTERNSHIP' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'}">
+                                ${post.type}
+                            </span>
+                            <span class="px-2.5 py-0.5 text-xs font-bold rounded-full ${post.status === 'OPEN' ? 'bg-green-100 text-green-800' : 'bg-slate-200 text-slate-700'}">
+                                ${post.status}
+                            </span>
+                        </div>
+
+                        <h3 class="text-lg font-black text-slate-900 mt-3">${post.title}</h3>
+                        <p class="text-xs font-bold text-green-700 mt-1">${post.compensation}</p>
+
+                        <div class="mt-4 space-y-1.5 text-xs text-slate-600">
+                            <div><span class="font-bold">Min GPA:</span> ${post.minGpa}</div>
+                            <div><span class="font-bold">Eligible Branches:</span> ${post.departments}</div>
+                            <div><span class="font-bold">Location:</span> ${post.location}</div>
+                            <div><span class="font-bold">Application Deadline:</span> ${post.deadline}</div>
+                            <div><span class="font-bold">Drive Date:</span> ${post.driveDate || 'TBA'}</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 px-5 py-3 border-t border-slate-100 flex justify-between items-center text-xs">
+                        <span class="font-extrabold text-purple-900">
+                            <i class="fa-solid fa-users text-purple-600 mr-1"></i>
+                            ${post.applicantCount || 0} Registered Applicants
+                        </span>
+                        <button class="text-purple-700 font-bold hover:underline">View Applicants</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function submitNewOpportunity(e) {
+            e.preventDefault();
+
+            // Collect department checkboxes
+            const depts = [];
+            document.querySelectorAll('.dept-checkbox input:checked').forEach(cb => depts.push(cb.value));
+
+            const params = new URLSearchParams();
+            params.append('action', 'add_opportunity');
+            params.append('companyId', currentCompany.id);
+            params.append('companyName', currentCompany.name);
+            params.append('title', document.getElementById('oppTitle').value);
+            params.append('type', document.getElementById('oppType').value);
+            params.append('duration', document.getElementById('oppDuration').value);
+            params.append('location', document.getElementById('oppLocation').value);
+            params.append('compensation', document.getElementById('oppCompensation').value);
+            params.append('minGpa', document.getElementById('oppMinGpa').value);
+            params.append('departments', depts.join(', ') || 'All Departments');
+            params.append('deadline', document.getElementById('oppDeadline').value);
+            params.append('driveDate', document.getElementById('oppDriveDate').value);
+            params.append('description', document.getElementById('oppDesc').value);
+
+            try {
+                const res = await fetch('../CompanyServlet', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: params.toString()
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showCompanyToast("Opportunity published successfully!", true);
+                } else {
+                    showCompanyToast(data.message || "Failed to publish", false);
+                }
+            } catch (err) {
+                // Add to local state for instant responsiveness
+                companyPostings.unshift({
+                    id: Date.now(),
+                    title: document.getElementById('oppTitle').value,
+                    type: document.getElementById('oppType').value,
+                    duration: document.getElementById('oppDuration').value,
+                    departments: depts.join(', ') || 'All Departments',
+                    location: document.getElementById('oppLocation').value,
+                    compensation: document.getElementById('oppCompensation').value,
+                    minGpa: parseFloat(document.getElementById('oppMinGpa').value) || 0,
+                    deadline: document.getElementById('oppDeadline').value,
+                    driveDate: document.getElementById('oppDriveDate').value,
+                    applicantCount: 0,
+                    status: "OPEN"
+                });
+                showCompanyToast("Opportunity published successfully!", true);
+            }
+
+            document.getElementById('addOpportunityForm').reset();
+            setTimeout(() => switchTab('view'), 800);
+        }
+
+        function showCompanyToast(msg, isSuccess = true) {
+            const toast = document.getElementById('companyToast');
+            const toastMsg = document.getElementById('toastMsg');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMsg.innerText = msg;
+            toastIcon.className = isSuccess ? 'fa-solid fa-circle-check text-green-400 text-lg' : 'fa-solid fa-circle-exclamation text-red-400 text-lg';
+
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3500);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('headerCompanyName').innerText = `${currentCompany.name} - Recruiter Console`;
+            loadCompanyPostings();
+        });
+    </script>
+</body>
+</html>

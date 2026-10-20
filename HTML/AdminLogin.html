@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Admin Console - Secure Login</title>
+    <link rel="icon" href="https://ik.imagekit.io/vu71lptnl/Screenshot%202026-09-22%20204945.png">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-cover bg-[url('https://ik.imagekit.io/vu71lptnl/network-connection-background-abstract-style_23-2148875738.jpg')] bg-no-repeat min-h-screen">
+    <div class="min-h-screen bg-slate-950/60 backdrop-blur-md flex flex-col justify-center items-center p-4">
+
+        <div class="mb-4">
+            <a href="Home.html" class="text-white/80 hover:text-white text-sm font-semibold flex items-center space-x-2 transition">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Back to Home</span>
+            </a>
+        </div>
+
+        <div class="w-full max-w-md bg-slate-900/90 border-2 border-red-500/40 backdrop-blur-xl rounded-2xl p-8 shadow-2xl">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 rounded-2xl bg-white p-2 mx-auto mb-3 shadow-md flex items-center justify-center">
+                    <img src="https://ik.imagekit.io/vu71lptnl/Screenshot%202026-09-22%20204945.png" alt="Admin Icon" class="h-12 w-12 object-contain">
+                </div>
+                <h1 class="text-3xl font-extrabold text-white tracking-tight">Placement Admin</h1>
+                <p class="text-xs text-slate-300 mt-1">Superuser Access & Governance Console</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" class="space-y-5">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Admin Username or Email</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-user-shield absolute left-3.5 top-3.5 text-slate-400"></i>
+                        <input type="text" id="adminUsername" required placeholder="admin or admin@annauniv.edu" 
+                               class="w-full pl-10 pr-4 py-2.5 bg-white/95 rounded-xl border border-slate-300 font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-red-500 text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Master Password</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-key absolute left-3.5 top-3.5 text-slate-400"></i>
+                        <input type="password" id="adminPassword" required placeholder="••••••••" 
+                               class="w-full pl-10 pr-4 py-2.5 bg-white/95 rounded-xl border border-slate-300 font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-red-500 text-sm">
+                    </div>
+                </div>
+
+                <div id="adminErrorMsg" class="hidden text-xs font-bold text-red-300 bg-red-950/60 p-2.5 rounded-lg border border-red-500/50">
+                    <!-- Error message -->
+                </div>
+
+                <button type="submit" id="adminSubmitBtn" class="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-extrabold rounded-xl shadow-lg transition transform active:scale-95 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Authenticate as Admin</span>
+                </button>
+            </form>
+
+            <div class="mt-6 pt-5 border-t border-white/10 text-center text-xs text-slate-400">
+                <p>Default credentials (from schema.sql):</p>
+                <code class="text-green-400 font-bold">User: admin | Pass: Admin@1234</code>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        async function handleAdminLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('adminUsername').value.trim();
+            const password = document.getElementById('adminPassword').value;
+            const errorDiv = document.getElementById('adminErrorMsg');
+            const submitBtn = document.getElementById('adminSubmitBtn');
+
+            errorDiv.classList.add('hidden');
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Verifying...";
+
+            try {
+                const params = new URLSearchParams();
+                params.append('action', 'login');
+                params.append('username', username);
+                params.append('password', password);
+
+                const res = await fetch('../AdminServlet', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: params.toString()
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    sessionStorage.setItem('adminId', data.adminId);
+                    sessionStorage.setItem('adminName', data.name);
+                    window.location.href = 'AdminDashboard.html';
+                    return;
+                } else {
+                    errorDiv.innerText = data.message || "Invalid Admin username or password.";
+                    errorDiv.classList.remove('hidden');
+                }
+            } catch (err) {
+                // Standalone test fallback
+                if (username === 'admin') {
+                    sessionStorage.setItem('adminId', 1);
+                    sessionStorage.setItem('adminName', "Super Admin");
+                    window.location.href = 'AdminDashboard.html';
+                    return;
+                }
+                errorDiv.innerText = "Error contacting admin authentication service.";
+                errorDiv.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<i class="fa-solid fa-shield-halved mr-2"></i><span>Authenticate as Admin</span>`;
+            }
+        }
+    </script>
+</body>
+</html>

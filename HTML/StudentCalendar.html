@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Placement Calendar - Smart Placement & Internship</title>
+    <link rel="icon" href="https://ik.imagekit.io/vu71lptnl/3d-cartoon-illustration-of-minimal-red-and-white-calendar-icon-isolated-on-transparent-background-free-png.png">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-green-400 border-b border-green-500 shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <div class="flex items-center space-x-3">
+                <img src="https://ik.imagekit.io/vu71lptnl/Screenshot%202026-09-22%20214538.png" alt="Logo" class="w-10 h-10 rounded-full border border-green-700">
+                <a href="StudentDashboard.html" class="text-xl font-bold tracking-tight text-slate-900">Internship & Placement Helper</a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <a href="StudentDashboard.html" class="flex items-center space-x-2 px-3 py-1.5 bg-slate-800 text-white hover:bg-slate-900 rounded-lg font-semibold shadow transition">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Drives</span>
+                </a>
+                <a href="PastOpportunities.html" class="flex items-center space-x-2 px-3 py-1.5 bg-purple-700 text-white hover:bg-purple-800 rounded-lg font-semibold shadow transition">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Past Experiences</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Header banner -->
+        <div class="bg-gradient-to-r from-purple-900 to-indigo-900 text-white rounded-2xl p-6 mb-8 shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center">
+            <div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-xl bg-white/10 backdrop-blur flex items-center justify-center text-2xl">
+                        📅
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-black">Student Personal Recruitment Calendar</h1>
+                        <p class="text-sm text-purple-200 mt-0.5">Stay on top of upcoming Online Tests, Technical Interviews, and Application Deadlines.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 md:mt-0 flex items-center space-x-3">
+                <span class="bg-green-500 text-black text-xs font-black px-3 py-1.5 rounded-full uppercase tracking-wider flex items-center shadow">
+                    <span class="w-2 h-2 rounded-full bg-black mr-2 animate-ping"></span> Live Notifications
+                </span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Calendar Section (Left: 7 Cols) -->
+            <div class="lg:col-span-7 bg-white rounded-2xl shadow-md border border-slate-200 p-6">
+                <!-- Month & Nav Controls -->
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 id="calendarMonthYear" class="text-xl font-black text-slate-900">October 2026</h2>
+                        <span class="text-xs text-slate-400 font-semibold">Click on any marked date to view scheduled drive rounds</span>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="changeMonth(-1)" class="w-9 h-9 rounded-lg border border-slate-300 hover:bg-slate-100 flex items-center justify-center text-slate-600 transition">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <button onclick="changeMonth(1)" class="w-9 h-9 rounded-lg border border-slate-300 hover:bg-slate-100 flex items-center justify-center text-slate-600 transition">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Calendar Weekdays -->
+                <div class="grid grid-cols-7 gap-2 text-center text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-2">
+                    <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+                </div>
+
+                <!-- Calendar Days Grid -->
+                <div id="calendarDaysGrid" class="grid grid-cols-7 gap-2">
+                    <!-- Days dynamically injected -->
+                </div>
+
+                <!-- Legend -->
+                <div class="mt-6 pt-4 border-t border-slate-100 flex flex-wrap gap-4 text-xs font-bold">
+                    <div class="flex items-center space-x-1.5">
+                        <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                        <span class="text-slate-600">Online Assessment (OA)</span>
+                    </div>
+                    <div class="flex items-center space-x-1.5">
+                        <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                        <span class="text-slate-600">Technical Interview</span>
+                    </div>
+                    <div class="flex items-center space-x-1.5">
+                        <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                        <span class="text-slate-600">Application Deadline</span>
+                    </div>
+                    <div class="flex items-center space-x-1.5">
+                        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                        <span class="text-slate-600">HR Round</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Notifications & Events List (Right: 5 Cols) -->
+            <div class="lg:col-span-5 space-y-6">
+                <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-black text-slate-900 flex items-center space-x-2">
+                            <i class="fa-solid fa-bell text-purple-700"></i>
+                            <span>Upcoming Schedule</span>
+                        </h3>
+                        <span id="eventsCountBadge" class="text-xs font-bold px-2.5 py-1 bg-purple-100 text-purple-800 rounded-full">3 Events</span>
+                    </div>
+
+                    <div id="eventsListContainer" class="space-y-3.5">
+                        <!-- Events loaded here -->
+                    </div>
+                </div>
+
+                <!-- Tips & Readiness Box -->
+                <div class="bg-gradient-to-br from-emerald-50 to-green-100 rounded-2xl p-5 border border-emerald-200">
+                    <h4 class="font-black text-emerald-900 text-sm flex items-center space-x-2">
+                        <i class="fa-solid fa-lightbulb text-emerald-600"></i>
+                        <span>Drive Preparation Tip</span>
+                    </h4>
+                    <p class="text-xs text-emerald-800 mt-2 leading-relaxed">
+                        Online assessment links are sent directly to your registered Anna University webmail 12 hours prior to the test. Ensure your webcam and stable Wi-Fi are verified in advance.
+                    </p>
+                    <a href="PastOpportunities.html" class="inline-block mt-3 text-xs font-bold text-emerald-700 hover:text-emerald-900 underline">
+                        Review Past Questions for your upcoming drives &rarr;
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Default initial events for demonstration & fallback
+        const defaultEvents = [
+            {
+                id: 1,
+                title: "Zoho Corporation - Round 1 OA",
+                date: "2026-10-30",
+                type: "ONLINE_TEST",
+                time: "10:00 AM - 12:00 PM",
+                details: "C/Java Programming Basics & Basic Flowchart logic test."
+            },
+            {
+                id: 2,
+                title: "Google - Summer SWE Intern Deadline",
+                date: "2026-11-01",
+                type: "DEADLINE",
+                time: "11:59 PM",
+                details: "Last date to submit application and upload updated resume."
+            },
+            {
+                id: 3,
+                title: "Microsoft - Technical Interview Round 1",
+                date: "2026-11-05",
+                type: "TECHNICAL_INTERVIEW",
+                time: "02:30 PM - 03:30 PM",
+                details: "Virtual Teams interview on Data Structures, Trees, and Operating Systems."
+            },
+            {
+                id: 4,
+                title: "Amazon - Online Coding Challenge",
+                date: "2026-11-20",
+                type: "ONLINE_TEST",
+                time: "06:00 PM - 07:30 PM",
+                details: "HackerRank assessment: 2 Algorithmic DSA problems + 1 Work Style Assessment."
+            }
+        ];
+
+        let currentDate = new Date(2026, 9, 20); // October 2026
+        let calendarEvents = [];
+
+        async function loadCalendarEvents() {
+            try {
+                const res = await fetch('../CalendarServlet?studentId=101');
+                if (res.ok) {
+                    const data = await res.json();
+                    calendarEvents = (Array.isArray(data) && data.length > 0) ? data : defaultEvents;
+                } else {
+                    calendarEvents = defaultEvents;
+                }
+            } catch (e) {
+                // Sync with local storage if student applied from StudentDashboard
+                const localEvents = JSON.parse(localStorage.getItem('studentCalendarEvents') || '[]');
+                calendarEvents = [...defaultEvents, ...localEvents];
+            }
+            renderCalendar();
+            renderUpcomingList();
+        }
+
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                                "July", "August", "September", "October", "November", "December"];
+            document.getElementById('calendarMonthYear').innerText = `${monthNames[month]} ${year}`;
+
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            const lastDay = new Date(year, month + 1, 0).getDate();
+            const prevLastDay = new Date(year, month, 0).getDate();
+
+            const grid = document.getElementById('calendarDaysGrid');
+            grid.innerHTML = '';
+
+            // Previous Month Days (Padding)
+            for (let i = firstDayIndex; i > 0; i--) {
+                grid.innerHTML += `<div class="h-20 p-1 bg-slate-50 border border-slate-100 rounded-lg text-slate-300 text-xs font-semibold select-none">${prevLastDay - i + 1}</div>`;
+            }
+
+            // Current Month Days
+            for (let day = 1; day <= lastDay; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayEvents = calendarEvents.filter(ev => ev.date === dateStr);
+                const isToday = day === 20 && month === 9 && year === 2026;
+
+                let eventBadges = dayEvents.map(ev => {
+                    let color = 'bg-blue-500';
+                    if (ev.type === 'ONLINE_TEST') color = 'bg-rose-500';
+                    if (ev.type === 'TECHNICAL_INTERVIEW') color = 'bg-amber-500';
+                    if (ev.type === 'HR_ROUND') color = 'bg-emerald-500';
+
+                    return `<span title="${ev.title}" class="block w-full truncate text-[10px] px-1 py-0.5 rounded text-white font-bold ${color} mt-0.5">${ev.title.split('-')[0]}</span>`;
+                }).join('');
+
+                grid.innerHTML += `
+                    <div class="h-20 p-1.5 border rounded-lg flex flex-col justify-between transition hover:border-purple-500 cursor-pointer ${isToday ? 'bg-green-50 border-green-500 font-extrabold' : 'bg-white border-slate-200'}">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs ${isToday ? 'text-green-700 bg-green-200 px-1 rounded-full' : 'text-slate-700 font-bold'}">${day}</span>
+                            ${dayEvents.length > 0 ? `<span class="w-1.5 h-1.5 rounded-full bg-rose-600"></span>` : ''}
+                        </div>
+                        <div class="overflow-hidden space-y-0.5">
+                            ${eventBadges}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function changeMonth(delta) {
+            currentDate.setMonth(currentDate.getMonth() + delta);
+            renderCalendar();
+        }
+
+        function renderUpcomingList() {
+            const container = document.getElementById('eventsListContainer');
+            const badge = document.getElementById('eventsCountBadge');
+
+            const sorted = [...calendarEvents].sort((a, b) => new Date(a.date) - new Date(b.date));
+            badge.innerText = `${sorted.length} Scheduled`;
+
+            if (sorted.length === 0) {
+                container.innerHTML = `<div class="text-center py-8 text-slate-400 text-sm">No scheduled tests or interviews. Apply to active drives to populate your calendar!</div>`;
+                return;
+            }
+
+            container.innerHTML = sorted.map(ev => {
+                let badgeClass = "bg-blue-100 text-blue-800 border-blue-200";
+                let icon = "fa-calendar-check";
+
+                if (ev.type === 'ONLINE_TEST') {
+                    badgeClass = "bg-rose-100 text-rose-800 border-rose-200";
+                    icon = "fa-laptop-code";
+                } else if (ev.type === 'TECHNICAL_INTERVIEW') {
+                    badgeClass = "bg-amber-100 text-amber-800 border-amber-200";
+                    icon = "fa-user-tie";
+                } else if (ev.type === 'HR_ROUND') {
+                    badgeClass = "bg-emerald-100 text-emerald-800 border-emerald-200";
+                    icon = "fa-handshake";
+                }
+
+                return `
+                <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:shadow-md transition">
+                    <div class="flex justify-between items-start">
+                        <span class="px-2 py-0.5 text-[10px] font-black uppercase rounded border ${badgeClass} flex items-center space-x-1">
+                            <i class="fa-solid ${icon} mr-1"></i>
+                            <span>${ev.type.replace('_', ' ')}</span>
+                        </span>
+                        <span class="text-xs font-bold text-slate-600 flex items-center">
+                            <i class="fa-regular fa-clock mr-1 text-slate-400"></i>
+                            ${ev.date}
+                        </span>
+                    </div>
+
+                    <h4 class="font-bold text-slate-900 text-sm mt-2">${ev.title}</h4>
+                    <p class="text-xs text-slate-600 mt-1">${ev.details}</p>
+                    
+                    ${ev.time ? `<div class="text-[11px] text-purple-700 font-semibold mt-1.5"><i class="fa-solid fa-hourglass-start mr-1"></i> ${ev.time}</div>` : ''}
+                </div>
+                `;
+            }).join('');
+        }
+
+        window.addEventListener('DOMContentLoaded', loadCalendarEvents);
+    </script>
+</body>
+</html>

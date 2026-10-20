@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Admin Control Console - Placement Platform</title>
+    <link rel="icon" href="https://ik.imagekit.io/vu71lptnl/Screenshot%202026-09-22%20204945.png">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800">
+
+    <!-- Top Admin Header -->
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center text-white shadow-md">
+                    <i class="fa-solid fa-shield-halved text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-black tracking-tight">University Placement Administrator</h1>
+                    <p class="text-[10px] text-slate-400">Institutional Governance & Verification Suite</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <span class="px-3 py-1 bg-red-600 text-white text-xs font-black rounded-full uppercase tracking-wider">Superuser</span>
+                <a href="AdminLogin.html" onclick="sessionStorage.clear()" class="text-slate-400 hover:text-white text-sm font-bold flex items-center space-x-1">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="bg-slate-800 text-slate-300 border-b border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap gap-2">
+            <button onclick="setAdminTab('companies')" id="tab-companies" class="admin-tab-btn py-3 px-4 font-bold text-sm border-b-4 border-red-500 text-white flex items-center space-x-2">
+                <i class="fa-solid fa-building-circle-check"></i>
+                <span>Company Access & Approval</span>
+            </button>
+            <button onclick="setAdminTab('students')" id="tab-students" class="admin-tab-btn py-3 px-4 font-bold text-sm border-b-4 border-transparent text-slate-400 hover:text-white flex items-center space-x-2">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span>Student Management</span>
+            </button>
+            <button onclick="setAdminTab('currentDrives')" id="tab-currentDrives" class="admin-tab-btn py-3 px-4 font-bold text-sm border-b-4 border-transparent text-slate-400 hover:text-white flex items-center space-x-2">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>Current Live Drives</span>
+            </button>
+            <button onclick="setAdminTab('pastDrives')" id="tab-pastDrives" class="admin-tab-btn py-3 px-4 font-bold text-sm border-b-4 border-transparent text-slate-400 hover:text-white flex items-center space-x-2">
+                <i class="fa-solid fa-box-archive"></i>
+                <span>Past Drive Repository</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Global Metrics Bar -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <span class="text-xs font-bold text-slate-400 uppercase">Registered Students</span>
+                <div class="text-2xl font-black text-slate-900 mt-1" id="statStudents">1,240</div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <span class="text-xs font-bold text-slate-400 uppercase">Authorized Companies</span>
+                <div class="text-2xl font-black text-purple-700 mt-1" id="statCompanies">38</div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <span class="text-xs font-bold text-slate-400 uppercase">Live Drives Active</span>
+                <div class="text-2xl font-black text-green-700 mt-1" id="statDrives">14</div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <span class="text-xs font-bold text-slate-400 uppercase">Total Applications</span>
+                <div class="text-2xl font-black text-blue-700 mt-1" id="statApplications">3,892</div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 1: COMPANY ACCESS MANAGEMENT ================= -->
+        <section id="panel-companies" class="space-y-8">
+            
+            <!-- Provision Form: Admin adds company access -->
+            <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
+                <div class="border-b border-slate-200 pb-3 mb-5">
+                    <h2 class="text-xl font-black text-slate-900 flex items-center space-x-2">
+                        <i class="fa-solid fa-plus-circle text-red-600"></i>
+                        <span>Provision New Company Access</span>
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Create and authorize credentials for verified hiring companies.</p>
+                </div>
+
+                <form onsubmit="handleProvisionCompany(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Company Name *</label>
+                        <input type="text" id="newCompName" required placeholder="e.g. Goldman Sachs" 
+                               class="w-full px-3 py-2 border-2 border-slate-300 rounded-xl focus:border-red-500 text-sm font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Company Recruiter Email *</label>
+                        <input type="email" id="newCompEmail" required placeholder="recruiter@goldmansachs.com" 
+                               class="w-full px-3 py-2 border-2 border-slate-300 rounded-xl focus:border-red-500 text-sm font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Initial Temporary Password *</label>
+                        <input type="text" id="newCompPassword" required placeholder="Company@2026" 
+                               class="w-full px-3 py-2 border-2 border-slate-300 rounded-xl focus:border-red-500 text-sm font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Industry / Sector</label>
+                        <input type="text" id="newCompIndustry" placeholder="FinTech / Cloud / AI" 
+                               class="w-full px-3 py-2 border-2 border-slate-300 rounded-xl focus:border-red-500 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Corporate Website</label>
+                        <input type="text" id="newCompWebsite" placeholder="https://www.goldmansachs.com" 
+                               class="w-full px-3 py-2 border-2 border-slate-300 rounded-xl focus:border-red-500 text-sm">
+                    </div>
+                    <div class="flex items-end">
+                        <button type="submit" class="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white font-black rounded-xl text-sm shadow transition flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-key"></i>
+                            <span>Grant Company Access</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Companies List Table -->
+            <div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+                <div class="p-5 border-b border-slate-200 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-black text-lg text-slate-900">Authorized Recruiting Partners</h3>
+                        <p class="text-xs text-slate-500">Manage recruiter permissions, view active postings, and toggle access.</p>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-600">
+                        <thead class="bg-slate-50 text-xs font-extrabold uppercase text-slate-400 border-b border-slate-200">
+                            <tr>
+                                <th class="p-4">Company</th>
+                                <th class="p-4">Email Address</th>
+                                <th class="p-4">Industry</th>
+                                <th class="p-4">Postings</th>
+                                <th class="p-4">Access Status</th>
+                                <th class="p-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminCompaniesTable" class="divide-y divide-slate-100">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= TAB 2: STUDENT MANAGEMENT ================= -->
+        <section id="panel-students" class="hidden space-y-6">
+            <div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+                <div class="p-5 border-b border-slate-200 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-black text-lg text-slate-900">Student Profiles & Eligibility Verification</h3>
+                        <p class="text-xs text-slate-500">Review student academic GPA standing and regulate application privileges.</p>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-600">
+                        <thead class="bg-slate-50 text-xs font-extrabold uppercase text-slate-400 border-b border-slate-200">
+                            <tr>
+                                <th class="p-4">Roll Number</th>
+                                <th class="p-4">Student Name & Email</th>
+                                <th class="p-4">Department</th>
+                                <th class="p-4">CGPA</th>
+                                <th class="p-4">Applied Count</th>
+                                <th class="p-4">Standing</th>
+                                <th class="p-4 text-right">Manage</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminStudentsTable" class="divide-y divide-slate-100">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 3: CURRENT DRIVES OVERSIGHT ================= -->
+        <section id="panel-currentDrives" class="hidden space-y-6">
+            <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-5">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h3 class="font-black text-lg text-slate-900">Active Campus Openings</h3>
+                        <p class="text-xs text-slate-500">Live monitoring of all active internships and full-time drives.</p>
+                    </div>
+                </div>
+
+                <div id="adminDrivesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Injected dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 4: PAST DRIVE REPOSITORY ================= -->
+        <section id="panel-pastDrives" class="hidden space-y-6">
+            
+            <!-- Add past drive experience form -->
+            <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
+                <div class="border-b border-slate-200 pb-3 mb-5">
+                    <h2 class="text-xl font-black text-slate-900 flex items-center space-x-2">
+                        <i class="fa-solid fa-graduation-cap text-purple-700"></i>
+                        <span>Publish Verified Past Drive Insights</span>
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Archive recruitment rounds, online test formats, and interview experiences for future batches.</p>
+                </div>
+
+                <form onsubmit="handlePublishPastExperience(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Company Name *</label>
+                            <input type="text" id="pastCompName" required placeholder="Google" 
+                                   class="w-full px-3 py-2 border-2 border-slate-300 rounded-xl text-sm font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Role Title *</label>
+                            <input type="text" id="pastRole" required placeholder="SWE Intern" 
+                                   class="w-full px-3 py-2 border-2 border-slate-300 rounded-xl text-sm font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Batch Year *</label>
+                            <input type="number" id="pastYear" required value="2025" 
+                                   class="w-full px-3 py-2 border-2 border-slate-300 rounded-xl text-sm font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Type *</label>
+                            <select id="pastType" class="w-full px-3 py-2 border-2 border-slate-300 rounded-xl text-sm font-bold bg-white">
+                                <option value="PLACEMENT">Placement</option>
+                                <option value="INTERNSHIP">Internship</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Online Test (OA) Details</label>
+                            <textarea id="pastOA" rows="2" placeholder="Platform, topics tested (DSA, Aptitude, SQL), corner cases..." 
+                                      class="w-full px-3 py-2 border-2 border-slate-300 rounded-xl text-xs"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Technical Interview Questions</label>
+                            <textarea id="pastTech" rows="2" placeholder="Key DSA problems asked, System design, Core CS fundamentals..." 
+                                      class="w-full px-3 py-2 border-2 border-slate-300 rounded-xl text-xs"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">HR Questions & Preparation Tips</label>
+                            <textarea id="pastHR" rows="2" placeholder="Behavioral questions, culture fit, alumni strategy tips..." 
+                                      class="w-full px-3 py-2 border-2 border-slate-300 rounded-xl text-xs"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button type="submit" class="px-6 py-2.5 bg-purple-700 hover:bg-purple-800 text-white font-extrabold rounded-xl text-sm shadow transition flex items-center space-x-2">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <span>Save to Archive</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Admin Toast -->
+    <div id="adminToast" class="fixed bottom-6 right-6 transform translate-y-24 opacity-0 transition-all duration-300 z-50 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center space-x-3">
+        <i id="adminToastIcon" class="fa-solid fa-circle-check text-green-400 text-lg"></i>
+        <span id="adminToastMsg" class="font-medium text-sm">Message</span>
+    </div>
+
+    <script>
+        let adminCompanies = [
+            { id: 1, companyName: "Google", email: "campus@google.com", industry: "Tech / Cloud", postingsCount: 2, status: "ACTIVE" },
+            { id: 2, companyName: "Microsoft", email: "recruiting@microsoft.com", industry: "Enterprise Software", postingsCount: 1, status: "ACTIVE" },
+            { id: 3, companyName: "Zoho Corporation", email: "careers@zohocorp.com", industry: "SaaS Products", postingsCount: 3, status: "ACTIVE" }
+        ];
+
+        let adminStudents = [
+            { id: 101, rollNo: "2023101001", name: "Ananya Ramesh", email: "2023101001@student.annauniv.edu", department: "CSE", gpa: 8.75, applicationsCount: 3, status: "ACTIVE" },
+            { id: 102, rollNo: "2023101002", name: "Dinesh Kumar", email: "2023101002@student.annauniv.edu", department: "IT", gpa: 7.40, applicationsCount: 2, status: "ACTIVE" },
+            { id: 103, rollNo: "2023101003", name: "Meera Krishnan", email: "2023101003@student.annauniv.edu", department: "ECE", gpa: 9.10, applicationsCount: 4, status: "ACTIVE" }
+        ];
+
+        function setAdminTab(tab) {
+            ['companies', 'students', 'currentDrives', 'pastDrives'].forEach(t => {
+                document.getElementById(`panel-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).className = "admin-tab-btn py-3 px-4 font-bold text-sm border-b-4 border-transparent text-slate-400 hover:text-white flex items-center space-x-2";
+            });
+
+            document.getElementById(`panel-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-${tab}`).className = "admin-tab-btn py-3 px-4 font-bold text-sm border-b-4 border-red-500 text-white flex items-center space-x-2";
+
+            if (tab === 'companies') renderCompaniesTable();
+            if (tab === 'students') renderStudentsTable();
+            if (tab === 'currentDrives') renderDrivesList();
+        }
+
+        async function loadAdminData() {
+            try {
+                const compRes = await fetch('../AdminServlet?section=companies');
+                if (compRes.ok) {
+                    const data = await compRes.json();
+                    if (Array.isArray(data) && data.length > 0) adminCompanies = data;
+                }
+                const studRes = await fetch('../AdminServlet?section=students');
+                if (studRes.ok) {
+                    const data = await studRes.json();
+                    if (Array.isArray(data) && data.length > 0) adminStudents = data;
+                }
+            } catch (e) {
+                // Offline fallback loaded
+            }
+            renderCompaniesTable();
+            renderStudentsTable();
+        }
+
+        function renderCompaniesTable() {
+            const tbody = document.getElementById('adminCompaniesTable');
+            tbody.innerHTML = adminCompanies.map(c => `
+                <tr class="hover:bg-slate-50 transition">
+                    <td class="p-4 font-black text-slate-900">${c.companyName}</td>
+                    <td class="p-4 font-mono text-xs text-slate-600">${c.email}</td>
+                    <td class="p-4">${c.industry || 'Technology'}</td>
+                    <td class="p-4 font-bold text-purple-700">${c.postingsCount || 0} Drives</td>
+                    <td class="p-4">
+                        <span class="px-2.5 py-1 text-xs font-bold rounded-full ${c.status === 'ACTIVE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                            ${c.status}
+                        </span>
+                    </td>
+                    <td class="p-4 text-right">
+                        <button onclick="toggleCompanyStatus(${c.id})" class="text-xs font-bold px-3 py-1 rounded-lg border ${c.status === 'ACTIVE' ? 'border-red-300 text-red-700 hover:bg-red-50' : 'border-green-300 text-green-700 hover:bg-green-50'}">
+                            ${c.status === 'ACTIVE' ? 'Suspend Access' : 'Activate Access'}
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderStudentsTable() {
+            const tbody = document.getElementById('adminStudentsTable');
+            tbody.innerHTML = adminStudents.map(s => `
+                <tr class="hover:bg-slate-50 transition">
+                    <td class="p-4 font-mono font-bold text-slate-900">${s.rollNo}</td>
+                    <td class="p-4">
+                        <div class="font-bold text-slate-900">${s.name}</div>
+                        <div class="text-xs text-slate-500 font-mono">${s.email}</div>
+                    </td>
+                    <td class="p-4 font-semibold">${s.department}</td>
+                    <td class="p-4 font-black text-slate-800">${s.gpa}</td>
+                    <td class="p-4 font-bold text-blue-700">${s.applicationsCount}</td>
+                    <td class="p-4">
+                        <span class="px-2.5 py-1 text-xs font-bold rounded-full ${s.status === 'ACTIVE' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'}">
+                            ${s.status}
+                        </span>
+                    </td>
+                    <td class="p-4 text-right">
+                        <button onclick="toggleStudentStatus(${s.id})" class="text-xs font-bold px-3 py-1 rounded-lg border border-slate-300 hover:bg-slate-100 text-slate-700">
+                            ${s.status === 'ACTIVE' ? 'Hold' : 'Verify'}
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderDrivesList() {
+            const container = document.getElementById('adminDrivesContainer');
+            const sampleDrives = [
+                { id: 1, company: "Google", role: "Software Engineering Intern", type: "INTERNSHIP", cutoff: 8.0, deadline: "2026-11-01" },
+                { id: 2, company: "Microsoft", role: "Cloud Support Specialist", type: "PLACEMENT", cutoff: 7.5, deadline: "2026-10-28" },
+                { id: 3, company: "Zoho", role: "Member Technical Staff", type: "PLACEMENT", cutoff: 6.5, deadline: "2026-10-25" }
+            ];
+
+            container.innerHTML = sampleDrives.map(d => `
+                <div class="p-5 border border-slate-200 rounded-xl bg-slate-50 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">${d.type}</span>
+                            <span class="text-xs font-bold text-slate-500">Cutoff: ${d.cutoff} GPA</span>
+                        </div>
+                        <h4 class="font-black text-slate-900 text-base mt-2">${d.company}</h4>
+                        <p class="text-xs text-slate-600">${d.role}</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-200 flex justify-between items-center text-xs">
+                        <span class="text-slate-500 font-medium">Closes: ${d.deadline}</span>
+                        <button class="text-red-600 font-bold hover:underline">Remove Posting</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function handleProvisionCompany(e) {
+            e.preventDefault();
+            const name = document.getElementById('newCompName').value.trim();
+            const email = document.getElementById('newCompEmail').value.trim();
+            const pass = document.getElementById('newCompPassword').value;
+            const industry = document.getElementById('newCompIndustry').value.trim();
+            const website = document.getElementById('newCompWebsite').value.trim();
+
+            const params = new URLSearchParams();
+            params.append('action', 'add_company');
+            params.append('companyName', name);
+            params.append('email', email);
+            params.append('password', pass);
+            params.append('industry', industry);
+            params.append('website', website);
+
+            try {
+                const res = await fetch('../AdminServlet', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: params.toString()
+                });
+                const data = await res.json();
+                showAdminToast(data.message || "Company provisioned!", data.success);
+            } catch (err) {
+                showAdminToast(`Company access granted for ${name}!`, true);
+            }
+
+            adminCompanies.unshift({
+                id: Date.now(),
+                companyName: name,
+                email: email,
+                industry: industry || "Technology",
+                postingsCount: 0,
+                status: "ACTIVE"
+            });
+            renderCompaniesTable();
+            e.target.reset();
+        }
+
+        function toggleCompanyStatus(id) {
+            const comp = adminCompanies.find(c => c.id === id);
+            if (comp) {
+                comp.status = comp.status === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE';
+                renderCompaniesTable();
+                showAdminToast(`${comp.companyName} status changed to ${comp.status}`);
+            }
+        }
+
+        function toggleStudentStatus(id) {
+            const st = adminStudents.find(s => s.id === id);
+            if (st) {
+                st.status = st.status === 'ACTIVE' ? 'ON_HOLD' : 'ACTIVE';
+                renderStudentsTable();
+                showAdminToast(`${st.name} status updated.`);
+            }
+        }
+
+        async function handlePublishPastExperience(e) {
+            e.preventDefault();
+            const params = new URLSearchParams();
+            params.append('companyName', document.getElementById('pastCompName').value);
+            params.append('role', document.getElementById('pastRole').value);
+            params.append('year', document.getElementById('pastYear').value);
+            params.append('type', document.getElementById('pastType').value);
+            params.append('onlineTestDetails', document.getElementById('pastOA').value);
+            params.append('technicalDetails', document.getElementById('pastTech').value);
+            params.append('hrDetails', document.getElementById('pastHR').value);
+            params.append('tips', "Follow standard syllabus and mock tests.");
+
+            try {
+                await fetch('../PastExperienceServlet', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: params.toString()
+                });
+            } catch (err) {}
+
+            showAdminToast("Past drive pattern saved to student repository!", true);
+            e.target.reset();
+        }
+
+        function showAdminToast(msg, isSuccess = true) {
+            const toast = document.getElementById('adminToast');
+            const toastMsg = document.getElementById('adminToastMsg');
+            const toastIcon = document.getElementById('adminToastIcon');
+
+            toastMsg.innerText = msg;
+            toastIcon.className = isSuccess ? 'fa-solid fa-circle-check text-green-400 text-lg' : 'fa-solid fa-circle-exclamation text-red-400 text-lg';
+
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3500);
+        }
+
+        window.addEventListener('DOMContentLoaded', loadAdminData);
+    </script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Past Recruitment Drives & Interview Vault</title>
+    <link rel="icon" href="https://ik.imagekit.io/vu71lptnl/Screenshot%202026-09-22%20214538.png">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-green-400 border-b border-green-500 shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <div class="flex items-center space-x-3">
+                <img src="https://ik.imagekit.io/vu71lptnl/Screenshot%202026-09-22%20214538.png" alt="Logo" class="w-10 h-10 rounded-full border border-green-700">
+                <a href="StudentDashboard.html" class="text-xl font-bold tracking-tight text-slate-900">Internship & Placement Helper</a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <a href="StudentDashboard.html" class="flex items-center space-x-2 px-3 py-1.5 bg-green-700 text-white hover:bg-green-800 rounded-lg font-semibold shadow transition">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <span>Live Opportunities</span>
+                </a>
+                <a href="StudentCalendar.html" class="flex items-center space-x-2 px-3 py-1.5 bg-slate-800 text-white hover:bg-slate-900 rounded-lg font-semibold shadow transition">
+                    <i class="fa-solid fa-calendar"></i>
+                    <span>My Calendar</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero / Archive Header -->
+    <div class="bg-gradient-to-r from-purple-950 via-purple-900 to-indigo-900 text-white py-10 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <span class="px-3 py-1 bg-purple-700 text-purple-200 text-xs font-black uppercase tracking-widest rounded-full">Alumni & Senior Insights Vault</span>
+                    <h1 class="text-3xl font-black mt-2">Past Internships & Placements Experience</h1>
+                    <p class="text-purple-200 text-sm mt-1 max-w-2xl">
+                        Explore previous recruitment drive patterns, online assessment syllabus, real technical interview questions, and HR rounds from previous batches to prepare effectively.
+                    </p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20 text-center">
+                    <div class="text-2xl font-black text-green-400" id="totalArchiveBadge">6+ Drives</div>
+                    <div class="text-xs text-purple-200 font-medium">Documented Patterns</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search & Filter Controls -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6">
+        <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-5 grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+            
+            <!-- Search Company / Topic -->
+            <div class="md:col-span-7 relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400"></i>
+                <input type="text" id="pastSearch" onkeyup="filterPastExperiences()" placeholder="Search past company (e.g. Amazon, Zoho, Google) or topic (e.g. Trees, System Design)..." 
+                       class="w-full pl-10 pr-4 py-2 border-2 border-slate-300 rounded-xl focus:outline-none focus:border-purple-600 font-medium">
+            </div>
+
+            <!-- Type Filter -->
+            <div class="md:col-span-3">
+                <select id="pastTypeFilter" onchange="filterPastExperiences()" class="w-full py-2 px-3 border-2 border-slate-300 rounded-xl focus:outline-none focus:border-purple-600 font-semibold bg-white">
+                    <option value="ALL">All Categories</option>
+                    <option value="PLACEMENT">Placements Only</option>
+                    <option value="INTERNSHIP">Internships Only</option>
+                </select>
+            </div>
+
+            <!-- Reset Filter -->
+            <div class="md:col-span-2">
+                <button onclick="resetPastFilters()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition flex items-center justify-center space-x-1">
+                    <i class="fa-solid fa-rotate-left text-xs"></i>
+                    <span>Reset</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Experiences List Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6" id="experiencesContainer">
+        <!-- Injected Dynamically -->
+    </main>
+
+    <script>
+        // Comprehensive Past Placement Data (connected to PastExperienceServlet.java)
+        const pastDrivesData = [
+            {
+                id: 1,
+                companyName: "Google",
+                role: "Software Engineering Intern",
+                year: 2025,
+                type: "INTERNSHIP",
+                package: "₹1,15,000 / month",
+                rounds: 3,
+                contributor: "Rahul S. (ECE 2025)",
+                onlineTest: {
+                    platform: "Google Online Challenge (GOC)",
+                    duration: "60 mins",
+                    format: "2 Algorithmic coding questions",
+                    topics: "Dynamic Programming, Graphs (Shortest Path), Binary Search on Answer.",
+                    tips: "Corner cases matter heavily. Write clean modular code with descriptive variable names."
+                },
+                technical: {
+                    roundsCount: "2 Rounds (45 mins each on Google Meet + Google Docs)",
+                    topicsAsked: "Round 1: Trie implementation for autocomplete prefix search with frequency rankings. Round 2: Range Query algorithm using Segment Tree + System architecture discussion on caching.",
+                    interviewerExpectation: "Thinking aloud throughout the solution. Dry run your code manually on edge test cases before submitting."
+                },
+                hr: {
+                    focus: "\"Googliness\" & Leadership Principles",
+                    questions: "Tell me about a time you had a technical disagreement with a team member. How do you prioritize tasks under tight university deadlines?",
+                    tips: "Use the STAR method (Situation, Task, Action, Result) for behavioral answers."
+                },
+                overallTips: "Focus strictly on LeetCode Medium/Hard for Trees, Graphs, and DP. Practice coding without IDE auto-completion."
+            },
+            {
+                id: 2,
+                companyName: "Zoho Corporation",
+                role: "Member Technical Staff (MTS)",
+                year: 2025,
+                type: "PLACEMENT",
+                package: "8.5 LPA",
+                rounds: 5,
+                contributor: "Pooja V. (CSE 2025)",
+                onlineTest: {
+                    platform: "Zoho Campus Portal",
+                    duration: "90 mins",
+                    format: "Part A: Aptitude & Flowcharts (20 Qs), Part B: C/Java Output prediction (25 Qs)",
+                    topics: "Pointers in C, Recursion stacks, String manipulation, Bitwise operators.",
+                    tips: "No negative marking. Master C language pointer arithmetic and memory addressing."
+                },
+                technical: {
+                    roundsCount: "2 Rounds (Basic & Advanced Programming)",
+                    topicsAsked: "Round 1: 5 Programming questions (Matrix spiral traversal, Expression evaluation without library, Custom String to Integer atoi). Round 2: Design Railway Ticket Reservation System with waiting list & RAC logic in Java.",
+                    interviewerExpectation: "Heavy emphasis on Object-Oriented Programming (OOP) without external frameworks. Raw logic and data structures."
+                },
+                hr: {
+                    focus: "Cultural Fit & Willingness to learn",
+                    questions: "Why Zoho over service-based giants? Are you comfortable with their campus location and tech stack?",
+                    tips: "Showcase genuine interest in building products rather than framework chasing."
+                },
+                overallTips: "Zoho tests your foundation in core logic and raw programming. Don't rely on pre-built libraries."
+            },
+            {
+                id: 3,
+                companyName: "Amazon",
+                role: "Software Development Engineer - 1",
+                year: 2025,
+                type: "PLACEMENT",
+                package: "28 LPA (CTC)",
+                rounds: 4,
+                contributor: "Karthik M. (IT 2025)",
+                onlineTest: {
+                    platform: "HackerRank",
+                    duration: "90 mins",
+                    format: "2 Coding Questions + Amazon Work Style Assessment (Survey)",
+                    topics: "Priority Queues, Sliding Window, Monotonic Stacks.",
+                    tips: "The Work Style Assessment carries 50% weightage. Read the 16 Amazon Leadership Principles closely."
+                },
+                technical: {
+                    roundsCount: "3 Technical Rounds (60 mins each)",
+                    topicsAsked: "Round 1: Rotten Oranges BFS variation + LRU Cache design. Round 2: Distributed Order Processing System + Concurrency locks. Round 3: Low-Level Design (LLD) of an Online Parking Lot System using SOLID principles.",
+                    interviewerExpectation: "Clean code, correct time/space complexity derivations, and adherence to design patterns."
+                },
+                hr: {
+                    focus: "Bar Raiser Round (Leadership Principles)",
+                    questions: "\"Customer Obsession\" and \"Ownership\" stories. Describe your most complex academic project and trade-offs made.",
+                    tips: "Have 4-5 well-structured real project stories prepared using the STAR framework."
+                },
+                overallTips: "Amazon loves DSA Mediums and OOP Low-Level Design. Be completely honest about everything on your resume."
+            },
+            {
+                id: 4,
+                companyName: "Microsoft",
+                role: "Software Engineering Intern",
+                year: 2024,
+                type: "INTERNSHIP",
+                package: "₹80,000 / month",
+                rounds: 3,
+                contributor: "Aravind K. (CSE 2024)",
+                onlineTest: {
+                    platform: "Codility",
+                    duration: "75 mins",
+                    format: "3 Coding Tasks",
+                    topics: "Greedy algorithms, Bit manipulation, Hash tables.",
+                    tips: "100% test case pass rate is typically required for shortlisting."
+                },
+                technical: {
+                    roundsCount: "2 Technical Rounds",
+                    topicsAsked: "Binary Search Tree validation and serialization/deserialization. In-depth OS concepts: Virtual memory, paging, race conditions, semaphore vs mutex.",
+                    interviewerExpectation: "Deep conceptual clarity on how code interacts with the underlying OS and CPU cache."
+                },
+                hr: {
+                    focus: "Growth Mindset & Collaboration",
+                    questions: "How do you handle ambiguous project requirements? Give an example where you failed and learned.",
+                    tips: "Demonstrate curiosity and willingness to listen to interviewers' hints."
+                },
+                overallTips: "Revise Operating Systems, DBMS ACID properties, and Computer Networks along with standard DSA."
+            }
+        ];
+
+        let experiences = [...pastDrivesData];
+
+        async function loadPastExperiences() {
+            try {
+                const res = await fetch('../PastExperienceServlet');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        // Merge servlet data
+                        experiences = data.map(d => ({
+                            companyName: d.companyName,
+                            role: d.role,
+                            year: d.year,
+                            type: d.type,
+                            package: d.package,
+                            rounds: d.rounds,
+                            contributor: d.contributor,
+                            onlineTest: { format: d.onlineTestDetails, topics: d.onlineTestDetails, tips: "Review previous patterns." },
+                            technical: { roundsCount: `${d.rounds - 1} Rounds`, topicsAsked: d.technicalDetails, interviewerExpectation: "Clean approach & complexity." },
+                            hr: { focus: "Cultural Alignment", questions: d.hrDetails, tips: "Be authentic." },
+                            overallTips: d.tips
+                        }));
+                    }
+                }
+            } catch (e) {
+                // Standalone fallback
+                experiences = pastDrivesData;
+            }
+            renderExperiences(experiences);
+        }
+
+        function filterPastExperiences() {
+            const query = document.getElementById('pastSearch').value.toLowerCase().trim();
+            const type = document.getElementById('pastTypeFilter').value;
+
+            const filtered = experiences.filter(exp => {
+                const matchType = (type === 'ALL') || (exp.type.toUpperCase() === type);
+                const matchQuery = exp.companyName.toLowerCase().includes(query) ||
+                                   exp.role.toLowerCase().includes(query) ||
+                                   JSON.stringify(exp).toLowerCase().includes(query);
+                return matchType && matchQuery;
+            });
+
+            renderExperiences(filtered);
+        }
+
+        function resetPastFilters() {
+            document.getElementById('pastSearch').value = '';
+            document.getElementById('pastTypeFilter').value = 'ALL';
+            renderExperiences(experiences);
+        }
+
+        function renderExperiences(list) {
+            const container = document.getElementById('experiencesContainer');
+            document.getElementById('totalArchiveBadge').innerText = `${list.length} Drive${list.length === 1 ? '' : 's'}`;
+
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 bg-white rounded-2xl border border-slate-200">
+                        <i class="fa-solid fa-folder-open text-slate-300 text-5xl mb-3"></i>
+                        <p class="font-bold text-slate-700">No past experience records found matching your search.</p>
+                        <button onclick="resetPastFilters()" class="mt-4 px-4 py-2 bg-purple-700 text-white rounded-xl text-xs font-bold">Reset Filters</button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = list.map(exp => `
+                <div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+                    <!-- Header -->
+                    <div class="bg-slate-50 p-6 border-b border-slate-200 flex flex-wrap justify-between items-center gap-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-900 flex items-center justify-center font-black text-xl">
+                                ${exp.companyName.charAt(0)}
+                            </div>
+                            <div>
+                                <div class="flex items-center space-x-2">
+                                    <h2 class="text-xl font-black text-slate-900">${exp.companyName}</h2>
+                                    <span class="text-xs px-2.5 py-0.5 rounded-full font-bold ${exp.type === 'INTERNSHIP' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'}">${exp.type}</span>
+                                    <span class="text-xs px-2 py-0.5 bg-slate-200 font-bold rounded text-slate-700">Batch of ${exp.year}</span>
+                                </div>
+                                <p class="text-sm font-semibold text-purple-900 mt-0.5">${exp.role}</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-6 text-sm">
+                            <div>
+                                <span class="text-xs text-slate-400 block font-bold uppercase">Compensation</span>
+                                <span class="font-black text-green-700">${exp.package}</span>
+                            </div>
+                            <div>
+                                <span class="text-xs text-slate-400 block font-bold uppercase">Total Rounds</span>
+                                <span class="font-black text-slate-800">${exp.rounds} Rounds</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Breakdown of Recruitment Rounds -->
+                    <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                        
+                        <!-- 1. Online Test Card -->
+                        <div class="bg-rose-50/60 rounded-xl p-5 border border-rose-100 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center space-x-2 text-rose-800 font-black text-sm uppercase tracking-wider mb-3">
+                                    <i class="fa-solid fa-laptop-code"></i>
+                                    <span>Round 1: Online Assessment</span>
+                                </div>
+                                <p class="text-xs text-slate-700 font-semibold mb-2"><strong>Platform:</strong> ${exp.onlineTest.platform || 'Online Portal'}</p>
+                                <p class="text-xs text-slate-700 font-semibold mb-2"><strong>Duration:</strong> ${exp.onlineTest.duration || '60 - 90 mins'}</p>
+                                <div class="bg-white p-3 rounded-lg border border-rose-200 text-xs text-slate-700 space-y-1">
+                                    <span class="font-bold text-rose-900 block">Topics Tested:</span>
+                                    <span>${exp.onlineTest.topics || exp.onlineTest.format}</span>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-rose-200 text-[11px] text-rose-900 font-medium">
+                                <i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> ${exp.onlineTest.tips || 'Practice speed coding.'}
+                            </div>
+                        </div>
+
+                        <!-- 2. Technical Interview Card -->
+                        <div class="bg-amber-50/60 rounded-xl p-5 border border-amber-100 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center space-x-2 text-amber-800 font-black text-sm uppercase tracking-wider mb-3">
+                                    <i class="fa-solid fa-code"></i>
+                                    <span>Round 2: Technical Interview</span>
+                                </div>
+                                <p class="text-xs text-slate-700 font-semibold mb-2"><strong>Structure:</strong> ${exp.technical.roundsCount || '1-2 Technical Rounds'}</p>
+                                <div class="bg-white p-3 rounded-lg border border-amber-200 text-xs text-slate-700 space-y-1">
+                                    <span class="font-bold text-amber-900 block">Real Questions & Concepts:</span>
+                                    <span>${exp.technical.topicsAsked}</span>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-amber-200 text-[11px] text-amber-900 font-medium">
+                                <i class="fa-solid fa-user-check text-green-600 mr-1"></i> ${exp.technical.interviewerExpectation || 'Dry run code aloud.'}
+                            </div>
+                        </div>
+
+                        <!-- 3. HR & Managerial Card -->
+                        <div class="bg-emerald-50/60 rounded-xl p-5 border border-emerald-100 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center space-x-2 text-emerald-800 font-black text-sm uppercase tracking-wider mb-3">
+                                    <i class="fa-solid fa-user-tie"></i>
+                                    <span>Round 3: HR / Cultural Fit</span>
+                                </div>
+                                <p class="text-xs text-slate-700 font-semibold mb-2"><strong>Core Focus:</strong> ${exp.hr.focus}</p>
+                                <div class="bg-white p-3 rounded-lg border border-emerald-200 text-xs text-slate-700 space-y-1">
+                                    <span class="font-bold text-emerald-900 block">Typical Questions:</span>
+                                    <span>${exp.hr.questions}</span>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-emerald-200 text-[11px] text-emerald-900 font-medium">
+                                <i class="fa-solid fa-star text-amber-500 mr-1"></i> ${exp.hr.tips}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Footer with Alumnus Tip -->
+                    <div class="bg-purple-50 px-6 py-3 border-t border-purple-100 flex justify-between items-center text-xs text-purple-900">
+                        <div>
+                            <span class="font-bold">Senior Pro-Tip:</span> ${exp.overallTips}
+                        </div>
+                        <span class="font-semibold text-slate-500">Shared by ${exp.contributor}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.addEventListener('DOMContentLoaded', loadPastExperiences);
+    </script>
+</body>
+</html>

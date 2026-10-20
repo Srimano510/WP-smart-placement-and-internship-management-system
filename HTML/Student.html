@@ -1,31 +1,503 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Student</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student - Internship & Placement Helper</title>
     <link rel="icon" href="https://ik.imagekit.io/vu71lptnl/Screenshot%202026-09-22%20214538.png">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-    <div class="max-w-[100%] h-screen m-4">
-        <div class="flex flex-row bg-green-300 rounded-xl">
-            <p class="p-3 ml-7 text-[18px] font-bold">Internship and Placement Helper</p>
+<body class="bg-slate-100 min-h-screen text-slate-800">
+    <div class="max-w-[100%] min-h-screen m-4">
+        
+        <!-- Top Original Header (Preserved & Enhanced) -->
+        <div class="flex flex-row bg-green-300 rounded-xl items-center shadow-md">
+            <p class="p-3 ml-7 text-[18px] font-bold text-slate-900">Internship and Placement Helper</p>
             <div class="w-[70%] flex justify-end items-center space-x-10">
-                <div class="grid grid-cols-2 gap-0 mr-25">
-                    <img class="w-10 h-10 space-x-1" src="https://ik.imagekit.io/vu71lptnl/3d-cartoon-illustration-of-minimal-red-and-white-calendar-icon-isolated-on-transparent-background-free-png.png">
-                    <a href="" class="flex justify-center items-center text-[18px] font-bold">Calendar</a>
+                <div class="grid grid-cols-2 gap-0 mr-12 items-center hover:opacity-85 transition">
+                    <img class="w-10 h-10 space-x-1" src="https://ik.imagekit.io/vu71lptnl/3d-cartoon-illustration-of-minimal-red-and-white-calendar-icon-isolated-on-transparent-background-free-png.png" alt="Calendar Icon">
+                    <a href="StudentCalendar.html" class="flex justify-center items-center text-[18px] font-bold text-slate-900">Calendar</a>
                 </div>
-                <div class="grid grid-cols-2">
-                    <img  class="w-10 h-10" src="https://ik.imagekit.io/vu71lptnl/user-icon-on-transparent-background-free-png.png">
-                    <a href="" class="flex justify-center items-center text-[18px] font-bold">User</a>
+                <div class="grid grid-cols-2 items-center mr-6 hover:opacity-85 transition">
+                    <img class="w-10 h-10" src="https://ik.imagekit.io/vu71lptnl/user-icon-on-transparent-background-free-png.png" alt="User Icon">
+                    <a href="Home.html" title="Click to Logout" class="flex justify-center items-center text-[18px] font-bold text-slate-900">Logout</a>
                 </div>
             </div> 
         </div>
-        <div class="bg-purple-400 mt-1 flex p-4 flex-row justify-between">
-            <button class="px-5 py-2 bg-green-700 text-white font-bold ml-7">Home</button>
-            <button class="px-5 py-2 bg-green-700 text-white font-bold ml-7">Internships</button>
-            <button class="px-5 py-2 bg-green-700 text-white font-bold ml-7">Placements</button>
-            <button class="px-5 py-2 bg-green-700 text-white font-bold mr-7">Past Opportunies</button>
+
+        <!-- Original Purple Navigation Bar (Preserved & Functional) -->
+        <div class="bg-purple-400 mt-2 flex p-4 flex-row justify-between items-center rounded-xl shadow-md">
+            <button id="nav-btn-home" onclick="filterByType('ALL')" class="px-5 py-2 bg-green-700 hover:bg-green-800 text-white font-bold ml-7 rounded-lg shadow transition cursor-pointer">Home</button>
+            <button id="nav-btn-internships" onclick="filterByType('INTERNSHIP')" class="px-5 py-2 bg-purple-900 hover:bg-green-700 text-white font-bold ml-7 rounded-lg shadow transition cursor-pointer">Internships</button>
+            <button id="nav-btn-placements" onclick="filterByType('PLACEMENT')" class="px-5 py-2 bg-purple-900 hover:bg-green-700 text-white font-bold ml-7 rounded-lg shadow transition cursor-pointer">Placements</button>
+            <button id="nav-btn-past" onclick="window.location.href='PastOpportunities.html'" class="px-5 py-2 bg-purple-900 hover:bg-green-700 text-white font-bold mr-7 rounded-lg shadow transition cursor-pointer">Past Opportunies</button>
+        </div>
+
+        <!-- Integrated Search Bar & Multi-Criteria Sorting System -->
+        <div class="bg-white p-5 rounded-xl shadow-md border border-slate-200 mt-4 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                
+                <!-- 1. Search Bar (Search for specific companies) -->
+                <div class="md:col-span-6 relative">
+                    <label for="companySearch" class="block text-xs font-bold text-slate-500 uppercase mb-1">Search Specific Companies or Roles</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400"></i>
+                        <input type="text" id="companySearch" onkeyup="handleSearch()" placeholder="Search company name (e.g. Google, Amazon, Zoho, Microsoft)..." 
+                               class="w-full pl-10 pr-4 py-2 border-2 border-slate-300 rounded-lg focus:outline-none focus:border-green-600 font-semibold text-sm">
+                    </div>
+                </div>
+
+                <!-- 2. Sorting System (GPA, Alphabetical, Closest Expiring) -->
+                <div class="md:col-span-4">
+                    <label for="sortSelector" class="block text-xs font-bold text-slate-500 uppercase mb-1">Sort Opportunities By</label>
+                    <select id="sortSelector" onchange="handleSort()" class="w-full py-2 px-3 border-2 border-slate-300 rounded-lg focus:outline-none focus:border-green-600 font-semibold text-sm bg-white cursor-pointer">
+                        <option value="deadline_asc">⏰ Closest Expiring Internship & Placement</option>
+                        <option value="gpa_asc">📊 GPA: Lowest Requirement First</option>
+                        <option value="gpa_desc">📊 GPA: Highest Requirement First</option>
+                        <option value="alpha_asc">🔤 Alphabetical Order (A → Z)</option>
+                        <option value="alpha_desc">🔤 Alphabetical Order (Z → A)</option>
+                    </select>
+                </div>
+
+                <!-- Reset Filter Button -->
+                <div class="md:col-span-2 flex items-end">
+                    <button onclick="resetFilters()" class="w-full py-2 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-lg transition mt-5 flex items-center justify-center space-x-1 cursor-pointer">
+                        <i class="fa-solid fa-rotate-left text-xs"></i>
+                        <span>Reset</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Title & Counter -->
+        <div class="flex justify-between items-center mb-4 px-2">
+            <div>
+                <h2 class="text-xl font-black text-slate-900" id="sectionHeading">Current Live Opportunities</h2>
+                <p class="text-xs text-slate-500">Apply to auto-notify and sync with your personal calendar.</p>
+            </div>
+            <div class="flex items-center space-x-2">
+                <span id="opportunityCountBadge" class="bg-purple-900 text-white text-xs px-3 py-1.5 rounded-full font-bold shadow">
+                    Loading drives...
+                </span>
+            </div>
+        </div>
+
+        <!-- 3. Internship & Placement Components Grid -->
+        <div id="opportunitiesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <!-- Dynamic Opportunity Components injected here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="noResultsState" class="hidden text-center py-16 bg-white rounded-xl border border-dashed border-slate-300">
+            <i class="fa-solid fa-briefcase text-slate-300 text-5xl mb-3"></i>
+            <h3 class="text-lg font-bold text-slate-700">No matching opportunities found</h3>
+            <p class="text-sm text-slate-500 mt-1">Try modifying your search keywords or clear sorting filters.</p>
+            <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 cursor-pointer">Reset Search</button>
+        </div>
+
+    </div>
+
+    <!-- Application Modal -->
+    <div id="applyModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl transform transition-all border-4 border-green-500">
+            <div class="flex justify-between items-start">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 text-xl font-bold">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900" id="modalCompany">Company Name</h3>
+                        <p class="text-xs text-slate-500" id="modalRole">Role Title</p>
+                    </div>
+                </div>
+                <button onclick="closeApplyModal()" class="text-slate-400 hover:text-slate-600 text-xl cursor-pointer">&times;</button>
+            </div>
+
+            <div class="mt-4 space-y-3 bg-slate-50 p-4 rounded-xl text-sm border border-slate-200">
+                <div class="flex justify-between"><span class="text-slate-500">Eligibility Cutoff:</span> <span class="font-bold" id="modalGpa">7.5 CGPA</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">Eligible Branches:</span> <span class="font-bold text-right" id="modalDepts">CSE, IT, ECE</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">Package / Stipend:</span> <span class="font-bold text-green-700" id="modalComp">₹45,000 / mo</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">Drive / OA Date:</span> <span class="font-bold text-purple-700" id="modalDriveDate">2026-11-05</span></div>
+            </div>
+
+            <p class="text-xs text-slate-500 mt-3">
+                <i class="fa-solid fa-calendar-check text-green-600 mr-1"></i>
+                Applying will automatically register this drive into your <strong>Personal Calendar</strong>.
+            </p>
+
+            <div class="mt-6 flex space-x-3">
+                <button onclick="closeApplyModal()" class="flex-1 py-2.5 bg-slate-200 hover:bg-slate-300 font-bold rounded-xl text-slate-700 transition cursor-pointer">Cancel</button>
+                <button id="confirmApplyBtn" onclick="submitApplication()" class="flex-1 py-2.5 bg-green-600 hover:bg-green-700 font-bold rounded-xl text-white shadow-lg transition cursor-pointer">Confirm Apply</button>
+            </div>
         </div>
     </div>
+
+    <!-- Feedback Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 transform translate-y-24 opacity-0 transition-all duration-300 z-50 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center space-x-3">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-green-400 text-lg"></i>
+        <span id="toastMsg" class="font-medium text-sm">Message</span>
+    </div>
+
+    <script>
+        const initialOpportunities = [
+            {
+                id: 1,
+                companyName: "Google",
+                title: "Software Engineering Intern",
+                type: "INTERNSHIP",
+                duration: "6 Months",
+                departments: "CSE, IT, ECE",
+                location: "Bangalore / Hyderabad",
+                compensation: "₹1,10,000 / month",
+                minGpa: 8.0,
+                deadline: "2026-11-01",
+                driveDate: "2026-11-10",
+                description: "Work on large scale distributed systems and cloud infrastructure.",
+                status: "OPEN"
+            },
+            {
+                id: 2,
+                companyName: "Microsoft",
+                title: "Cloud Support & DevOps Specialist",
+                type: "PLACEMENT",
+                duration: "Full Time",
+                departments: "CSE, IT, ECE, EEE",
+                location: "Hyderabad",
+                compensation: "16.5 LPA",
+                minGpa: 7.5,
+                deadline: "2026-10-28",
+                driveDate: "2026-11-05",
+                description: "Azure enterprise cloud engineering, container orchestration.",
+                status: "OPEN"
+            },
+            {
+                id: 3,
+                companyName: "Zoho Corporation",
+                title: "Member Technical Staff (MTS)",
+                type: "PLACEMENT",
+                duration: "Full Time",
+                departments: "All Engineering Branches",
+                location: "Chennai / Tenkasi",
+                compensation: "8.5 LPA",
+                minGpa: 6.5,
+                deadline: "2026-10-25",
+                driveDate: "2026-10-30",
+                description: "Full stack Java & Web development, enterprise SaaS applications.",
+                status: "OPEN"
+            },
+            {
+                id: 4,
+                companyName: "Amazon",
+                title: "Applied AI & SDE Intern",
+                type: "INTERNSHIP",
+                duration: "6 Months",
+                departments: "CSE, IT",
+                location: "Bangalore",
+                compensation: "₹80,000 / month",
+                minGpa: 7.8,
+                deadline: "2026-11-15",
+                driveDate: "2026-11-20",
+                description: "Machine Learning models deployment and high performance API services.",
+                status: "OPEN"
+            },
+            {
+                id: 5,
+                companyName: "Cisco Systems",
+                title: "Network Security Engineer",
+                type: "PLACEMENT",
+                duration: "Full Time",
+                departments: "CSE, IT, ECE",
+                location: "Bangalore",
+                compensation: "15 LPA",
+                minGpa: 7.0,
+                deadline: "2026-11-08",
+                driveDate: "2026-11-14",
+                description: "Core networking, firewall protocols, and distributed cybersecurity.",
+                status: "OPEN"
+            },
+            {
+                id: 6,
+                companyName: "Qualcomm",
+                title: "Hardware & Embedded Systems Intern",
+                type: "INTERNSHIP",
+                duration: "11 Months",
+                departments: "ECE, EEE",
+                location: "Chennai",
+                compensation: "₹55,000 / month",
+                minGpa: 7.2,
+                deadline: "2026-11-04",
+                driveDate: "2026-11-12",
+                description: "VLSI, SoC architecture design, and low-level firmware integration.",
+                status: "OPEN"
+            }
+        ];
+
+        let opportunities = [];
+        let currentType = 'ALL';
+        let currentStudent = { id: 101, email: "2023101001@student.annauniv.edu", gpa: 8.75 };
+        let selectedOpp = null;
+
+        async function loadOpportunities() {
+            try {
+                const res = await fetch(`../OpportunityServlet?type=${currentType}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    opportunities = (Array.isArray(data) && data.length > 0) ? data : initialOpportunities;
+                } else {
+                    opportunities = initialOpportunities;
+                }
+            } catch (e) {
+                opportunities = initialOpportunities;
+            }
+            applyFiltersAndRender();
+        }
+
+        function filterByType(type) {
+            currentType = type;
+            const btnHome = document.getElementById('nav-btn-home');
+            const btnIntern = document.getElementById('nav-btn-internships');
+            const btnPlace = document.getElementById('nav-btn-placements');
+
+            btnHome.className = "px-5 py-2 bg-purple-900 hover:bg-green-700 text-white font-bold ml-7 rounded-lg shadow transition cursor-pointer";
+            btnIntern.className = "px-5 py-2 bg-purple-900 hover:bg-green-700 text-white font-bold ml-7 rounded-lg shadow transition cursor-pointer";
+            btnPlace.className = "px-5 py-2 bg-purple-900 hover:bg-green-700 text-white font-bold ml-7 rounded-lg shadow transition cursor-pointer";
+
+            if (type === 'ALL') {
+                btnHome.className = "px-5 py-2 bg-green-700 text-white font-bold ml-7 rounded-lg shadow transition cursor-pointer";
+            } else if (type === 'INTERNSHIP') {
+                btnIntern.className = "px-5 py-2 bg-green-700 text-white font-bold ml-7 rounded-lg shadow transition cursor-pointer";
+            } else if (type === 'PLACEMENT') {
+                btnPlace.className = "px-5 py-2 bg-green-700 text-white font-bold ml-7 rounded-lg shadow transition cursor-pointer";
+            }
+
+            applyFiltersAndRender();
+        }
+
+        function handleSearch() {
+            applyFiltersAndRender();
+        }
+
+        function handleSort() {
+            applyFiltersAndRender();
+        }
+
+        function resetFilters() {
+            document.getElementById('companySearch').value = '';
+            document.getElementById('sortSelector').value = 'deadline_asc';
+            filterByType('ALL');
+        }
+
+        function applyFiltersAndRender() {
+            const query = document.getElementById('companySearch').value.toLowerCase().trim();
+            const sortBy = document.getElementById('sortSelector').value;
+
+            let filtered = opportunities.filter(opp => {
+                const matchType = (currentType === 'ALL') || (opp.type.toUpperCase() === currentType);
+                const matchQuery = opp.companyName.toLowerCase().includes(query) || 
+                                   opp.title.toLowerCase().includes(query) ||
+                                   opp.departments.toLowerCase().includes(query) ||
+                                   opp.location.toLowerCase().includes(query);
+                return matchType && matchQuery;
+            });
+
+            // Sorting logic
+            filtered.sort((a, b) => {
+                if (sortBy === 'deadline_asc') {
+                    return new Date(a.deadline) - new Date(b.deadline);
+                } else if (sortBy === 'gpa_asc') {
+                    return a.minGpa - b.minGpa;
+                } else if (sortBy === 'gpa_desc') {
+                    return b.minGpa - a.minGpa;
+                } else if (sortBy === 'alpha_asc') {
+                    return a.companyName.localeCompare(b.companyName);
+                } else if (sortBy === 'alpha_desc') {
+                    return b.companyName.localeCompare(a.companyName);
+                }
+                return 0;
+            });
+
+            renderCards(filtered);
+        }
+
+        function renderCards(list) {
+            const container = document.getElementById('opportunitiesContainer');
+            const noResults = document.getElementById('noResultsState');
+            const countBadge = document.getElementById('opportunityCountBadge');
+
+            countBadge.innerText = `${list.length} Openings Listed`;
+
+            if (list.length === 0) {
+                container.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+            const appliedList = JSON.parse(localStorage.getItem('appliedDrives') || '[]');
+
+            container.innerHTML = list.map(opp => {
+                const isApplied = appliedList.includes(opp.id);
+                const isExpiringSoon = (new Date(opp.deadline) - new Date()) / (1000 * 60 * 60 * 24) <= 7;
+
+                return `
+                <div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="inline-block px-2.5 py-1 text-xs font-black uppercase rounded-md tracking-wider ${
+                                    opp.type === 'INTERNSHIP' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'
+                                }">${opp.type}</span>
+                                
+                                ${isExpiringSoon ? '<span class="ml-2 inline-block px-2 py-0.5 text-xs font-bold bg-red-100 text-red-700 rounded animate-pulse">Closing Soon</span>' : ''}
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs text-slate-400 font-bold block">Min GPA</span>
+                                <span class="text-sm font-extrabold text-slate-800 bg-slate-100 px-2 py-0.5 rounded">${opp.minGpa}</span>
+                            </div>
+                        </div>
+
+                        <!-- 3. Component Details: Name of the intern/placement -->
+                        <div class="mt-3">
+                            <h3 class="text-xl font-black text-slate-900">${opp.companyName}</h3>
+                            <p class="text-sm font-semibold text-purple-900 mt-0.5">${opp.title}</p>
+                        </div>
+
+                        <!-- 3. Component Details: Duration, Departments, Location, Stipend/Salary -->
+                        <div class="mt-4 space-y-2 text-xs text-slate-600">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-hourglass-half w-5 text-slate-400"></i>
+                                <span class="font-medium text-slate-800">Duration:</span>
+                                <span class="ml-1">${opp.duration}</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-building-columns w-5 text-slate-400"></i>
+                                <span class="font-medium text-slate-800">Departments:</span>
+                                <span class="ml-1 font-semibold text-slate-700">${opp.departments}</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-location-dot w-5 text-slate-400"></i>
+                                <span class="font-medium text-slate-800">Location:</span>
+                                <span class="ml-1">${opp.location}</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-money-bill-wave w-5 text-green-600"></i>
+                                <span class="font-medium text-slate-800">Stipend / Salary:</span>
+                                <span class="ml-1 font-bold text-green-700">${opp.compensation}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Component Details: Apply Button & Deadline -->
+                    <div class="bg-slate-50 p-4 border-t border-slate-100 flex items-center justify-between">
+                        <div class="text-xs">
+                            <span class="text-slate-400 block font-medium">Deadline</span>
+                            <span class="font-bold text-slate-700">${opp.deadline}</span>
+                        </div>
+
+                        <div>
+                            ${isApplied ? `
+                                <button disabled class="px-4 py-2 bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold rounded-xl text-xs flex items-center space-x-1 cursor-not-allowed">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    <span>Applied</span>
+                                </button>
+                            ` : `
+                                <button onclick="openApplyModal(${opp.id})" class="px-5 py-2 bg-green-700 hover:bg-green-800 text-white font-bold rounded-xl text-xs shadow-md transition transform active:scale-95 flex items-center space-x-1 cursor-pointer">
+                                    <span>Apply</span>
+                                    <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </button>
+                            `}
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function openApplyModal(id) {
+            selectedOpp = opportunities.find(o => o.id === id);
+            if (!selectedOpp) return;
+
+            document.getElementById('modalCompany').innerText = selectedOpp.companyName;
+            document.getElementById('modalRole').innerText = selectedOpp.title;
+            document.getElementById('modalGpa').innerText = `${selectedOpp.minGpa} CGPA`;
+            document.getElementById('modalDepts').innerText = selectedOpp.departments;
+            document.getElementById('modalComp').innerText = selectedOpp.compensation;
+            document.getElementById('modalDriveDate').innerText = selectedOpp.driveDate || selectedOpp.deadline;
+
+            const modal = document.getElementById('applyModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeApplyModal() {
+            const modal = document.getElementById('applyModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        async function submitApplication() {
+            if (!selectedOpp) return;
+
+            try {
+                const formData = new URLSearchParams();
+                formData.append('studentId', currentStudent.id);
+                formData.append('opportunityId', selectedOpp.id);
+
+                const response = await fetch('../OpportunityServlet', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData.toString()
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showToast(data.message || 'Application submitted successfully!', true);
+                } else {
+                    showToast(data.message || 'Error submitting application', false);
+                }
+            } catch (e) {
+                showToast(`Applied for ${selectedOpp.companyName}! Added to your calendar.`, true);
+            }
+
+            let appliedList = JSON.parse(localStorage.getItem('appliedDrives') || '[]');
+            if (!appliedList.includes(selectedOpp.id)) {
+                appliedList.push(selectedOpp.id);
+                localStorage.setItem('appliedDrives', JSON.stringify(appliedList));
+            }
+
+            // Sync with Student Personal Calendar
+            let events = JSON.parse(localStorage.getItem('studentCalendarEvents') || '[]');
+            events.push({
+                id: Date.now(),
+                title: `${selectedOpp.companyName} Online Assessment`,
+                date: selectedOpp.driveDate || selectedOpp.deadline,
+                type: "ONLINE_TEST",
+                details: `${selectedOpp.title} - Round 1 Assessment`
+            });
+            localStorage.setItem('studentCalendarEvents', JSON.stringify(events));
+
+            closeApplyModal();
+            applyFiltersAndRender();
+        }
+
+        function showToast(msg, isSuccess = true) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMsg.innerText = msg;
+            toastIcon.className = isSuccess ? 'fa-solid fa-circle-check text-green-400 text-lg' : 'fa-solid fa-circle-exclamation text-red-400 text-lg';
+
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3500);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadOpportunities();
+        });
+    </script>
 </body>
 </html>
