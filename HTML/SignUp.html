@@ -1,141 +1,168 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body>
-    <div class="max-w-[100%] h-screen">
-        <div class="bg-cover bg-[url('https://ik.imagekit.io/vu71lptnl/network-connection-background-abstract-style_23-2148875738.jpg')] bg-no-repeat">
-            <div class="bg-blue-950/10 backdrop-blur-md">
-            <form action="../SignupServlet" method="post" class="h-screen flex flex-col items-center" id="form">
-                <div class="p-15 rounded-lg border-2 border-white/30 bg-blue-950/70 backdrop-blur-md mt-7 shadow-2xl">
-                    <p class="text-[30px] text-center font-[Pacifico] text-white font-bold">Student Registration</p>
-                    <p class="text-white ml-9 mt-3">Access your account to continue</p>
-                    <div class="flex flex-col mt-10">
-                        <input type="text" id="email" name="email" placeholder="Enter your email"  class="border-black border-2 font-bold rounded-sm bg-white w-75 h-10 p-5">
-                        <p id="emailError" class="text-red-500 font-bold"></p>
-                    </div>
-                    <div class="flex flex-col mt-10">
-                        <input type="password" id="password" name="password" placeholder="Enter your password"  class="border-2 font-bold rounded-sm w-75 bg-white h-10 p-5">
-                        <p id="passwordError" class="text-red-500 font-bold"></p>
-                    </div>
-                    <div class="pt-10">
-                        <button id="btnIn" class="px-30 py-3 bg-green-700 font-bold text-white border-2 border-black rounded-lg">Register</button>
-                    </div>
-                    <p class="flex flex-row justify-evenly mt-5 ml-3 text-white">Already have an account?<a class="text-sky-400" href="LoginStudent.html">Sign In</a></p>
-                </div>
-            </form>
+
+<body class="min-h-screen bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-950 text-white">
+
+    <div class="min-h-screen flex justify-center items-center px-4 py-8">
+
+        <form action="/PlacementSystem/SignupServlet"
+              method="post"
+              id="signupForm"
+              class="w-full max-w-lg rounded-xl border border-white/30
+                     bg-blue-950/80 p-8 shadow-2xl">
+
+            <h1 class="text-3xl font-bold text-center mb-2">
+                Student Registration
+            </h1>
+
+            <p class="text-center text-blue-200 mb-8">
+                Enter your details to create your account
+            </p>
+
+            <!-- Roll Number -->
+            <div class="mb-5">
+                <label for="roll_no" class="block mb-2 font-semibold">
+                    Roll Number
+                </label>
+                <input type="text"
+                       id="roll_no"
+                       name="roll_no"
+                       placeholder="Enter your roll number"
+                       maxlength="20"
+                       required
+                       class="w-full rounded-md bg-white p-3 text-black border-2 border-blue-300">
             </div>
-        </div>
+
+            <!-- Name -->
+            <div class="mb-5">
+                <label for="name" class="block mb-2 font-semibold">
+                    Full Name
+                </label>
+                <input type="text"
+                       id="name"
+                       name="name"
+                       placeholder="Enter your full name"
+                       maxlength="100"
+                       required
+                       pattern="[A-Za-z][A-Za-z .'-]*"
+                       title="Enter a valid name using letters, spaces, apostrophes, periods, or hyphens."
+                       class="w-full rounded-md bg-white p-3 text-black border-2 border-blue-300">
+            </div>
+
+            <!-- Email -->
+            <div class="mb-5">
+                <label for="email" class="block mb-2 font-semibold">
+                    Student Email
+                </label>
+                <input type="email"
+                       id="email"
+                       name="email"
+                       placeholder="Enter your student email"
+                       maxlength="100"
+                       required
+                       class="w-full rounded-md bg-white p-3 text-black border-2 border-blue-300">
+            </div>
+
+            <!-- Password -->
+            <div class="mb-5">
+                <label for="password" class="block mb-2 font-semibold">
+                    Password
+                </label>
+                <input type="password"
+                       id="password"
+                       name="password"
+                       placeholder="Create a password"
+                       minlength="8"
+                       maxlength="72"
+                       pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,72}"
+                       title="Use 8–72 characters with uppercase, lowercase, a number, and a special character."
+                       required
+                       class="w-full rounded-md bg-white p-3 text-black border-2 border-blue-300">
+
+                <p class="text-sm text-blue-200 mt-2">
+                    At least 8 characters, including uppercase, lowercase,
+                    a number, and a special character.
+                </p>
+            </div>
+
+            <!-- Department -->
+            
+<!-- Department -->
+            <div class="mb-5">
+                <label for="department" class="block mb-2 font-semibold">
+                Department
+                </label>
+
+                <input type="text"
+                    id="department"
+                    name="department"
+                    placeholder="Enter your department"
+                    maxlength="50"
+                    required
+                    class="w-full rounded-md bg-white p-3 text-black border-2 border-blue-300">
+            </div>
+
+            <!-- CGPA -->
+            <div class="mb-7">
+                <label for="gpa" class="block mb-2 font-semibold">
+                    CGPA
+                </label>
+                <input type="number"
+                       id="gpa"
+                       name="gpa"
+                       placeholder="Enter CGPA (0–10)"
+                       min="0"
+                       max="10"
+                       step="0.01"
+                       required
+                       class="w-full rounded-md bg-white p-3 text-black border-2 border-blue-300">
+            </div>
+
+            <button type="submit"
+                    class="w-full rounded-md bg-sky-500 hover:bg-sky-600
+                           p-3 font-bold text-white transition">
+                Create Account
+            </button>
+
+            <p class="text-center mt-5 text-sm">
+                Already registered?
+                <a href="LoginStudent.html"
+                   class="text-sky-300 underline hover:text-white">
+                    Log in
+                </a>
+            </p>
+
+        </form>
     </div>
+
     <script>
-            let form = document.getElementById('form')
-            let email = document.getElementById('email')
-            let emailError = document.getElementById('emailError')
-            let password = document.getElementById('password')
-            let passwordError = document.getElementById('passwordError')
+        document.getElementById("signupForm").addEventListener("submit", function (event) {
+            const cgpa = Number(document.getElementById("gpa").value);
 
-            let em = false, pw = false
+            if (cgpa < 0 || cgpa > 10) {
+                event.preventDefault();
+                alert("CGPA must be between 0 and 10.");
+                return;
+            }
 
-            form.addEventListener("submit",(e)=>{
-                if(!em || !pw){
-                    e.preventDefault()
-                }
-            })
+            const password = document.getElementById("password").value;
+            const passwordPattern =
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,72}$/;
 
-            email.addEventListener("input",(e) => {
-                const regex = /^\d{10}@student\.annauniv\.edu$/
-                if(e.target.value == ""){
-                    emailError.textContent = "Email should not be empty";
-                    email.classList.remove("bg-green-300","bg-white");
-                    email.classList.add("bg-red-300");
-                    emailError.classList.remove("text-green-500")
-                    emailError.classList.add("text-red-500")
-                    em = false
-                }
-                else if(!e.target.value.match(regex)){
-                    emailError.textContent = "Email should not be in the format"
-                    email.classList.remove("bg-green-300","bg-white");
-                    email.classList.add("bg-red-300");
-                    emailError.classList.remove("text-green-500")
-                    emailError.classList.add("text-red-500")
-                    em = false
-                }
-                else{
-                    emailError.textContent = "Looks good"
-                    email.classList.remove("bg-red-300","bg-white")
-                    email.classList.add("bg-green-300")
-                    emailError.classList.remove("text-red-500")
-                    emailError.classList.add("text-green-500")
-                    em = true
-                }
-            })
-
-            password.addEventListener("input",(e)=>{
-                const len = /^.{8,}$/
-                const upper = /[A-Z]/
-                const lower = /[a-z]/
-                const digit = /[0-9]/
-                const splchar = /[^A-Za-z0-9]/
-
-                if(e.target.value == ""){
-                    passwordError.textContent = "Password should not be empty"
-                    password.classList.remove("bg-green-300","bg-white")
-                    password.classList.add("bg-red-300")
-                    passwordError.classList.remove("text-green-500")
-                    passwordError.classList.add("text-red-500")
-                    pw = false
-                }
-                else if(!e.target.value.match(len)){
-                    passwordError.textContent = "Atleast 8 characters"
-                    password.classList.remove("bg-green-300","bg-white")
-                    password.classList.add("bg-red-300")
-                    passwordError.classList.remove("text-green-500")
-                    passwordError.classList.add("text-red-500")
-                    pw = false
-                }
-                else if(!e.target.value.match(upper)){
-                    passwordError.textContent = "Atleast 1 upper case"
-                    password.classList.remove("bg-green-300","bg-white")
-                    password.classList.add("bg-red-300")
-                    passwordError.classList.remove("text-green-500")
-                    passwordError.classList.add("text-red-500")
-                    pw = false
-                }
-                else if(!e.target.value.match(lower)){
-                    passwordError.textContent = "Atleast 1 lower case"
-                    password.classList.remove("bg-green-300","bg-white")
-                    password.classList.add("bg-red-300")
-                    passwordError.classList.remove("text-green-500")
-                    passwordError.classList.add("text-red-500")
-                    pw = false
-                }
-                else if(!e.target.value.match(digit)){
-                    passwordError.textContent = "Atleast 1 digit"
-                    password.classList.remove("bg-green-300","bg-white")
-                    password.classList.add("bg-red-300")
-                    passwordError.classList.remove("text-green-500")
-                    passwordError.classList.add("text-red-500")
-                    pw = false
-                }
-                else if(!e.target.value.match(splchar)){
-                    passwordError.textContent = "Atleast 1 special character"
-                    password.classList.remove("bg-green-300","bg-white")
-                    password.classList.add("bg-red-300")
-                    passwordError.classList.remove("text-green-500")
-                    passwordError.classList.add("text-red-500")
-                    pw = false
-                }
-                else{
-                    passwordError.textContent = "Looks good"
-                    password.classList.remove("bg-red-300","bg-white")
-                    password.classList.add("bg-green-300")
-                    passwordError.classList.remove("text-red-500")
-                    passwordError.classList.add("text-green-500")
-                    pw = true
-                }
-            })
+            if (!passwordPattern.test(password)) {
+                event.preventDefault();
+                alert("Password must have uppercase, lowercase, a number, and a special character.");
+            }
+        });
     </script>
+
 </body>
 </html>
